@@ -94,8 +94,10 @@ export function AppShell({
   return (
     <div className="flex min-h-screen bg-background">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar md:flex">
-        <div className="flex items-center gap-2 px-4 py-4 font-semibold">
-          <Briefcase className="size-5 text-primary" />
+        <div className="flex items-center gap-2.5 px-4 py-4 font-semibold">
+          <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Briefcase className="size-4" />
+          </span>
           Jobzapp
         </div>
         <Separator />
@@ -105,8 +107,10 @@ export function AppShell({
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="w-64 bg-sidebar p-0">
           <SheetTitle className="sr-only">Jobzapp</SheetTitle>
-          <div className="flex items-center gap-2 px-4 py-4 font-semibold">
-            <Briefcase className="size-5 text-primary" />
+          <div className="flex items-center gap-2.5 px-4 py-4 font-semibold">
+            <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Briefcase className="size-4" />
+            </span>
             Jobzapp
           </div>
           <Separator />
@@ -131,7 +135,7 @@ export function AppShell({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="ml-1 gap-2 px-2" aria-label={t("accountMenu")}>
-                  <Avatar className="size-7">
+                  <Avatar className="size-7 ring-1 ring-border">
                     <AvatarFallback>{initials(fullName)}</AvatarFallback>
                   </Avatar>
                 </Button>

@@ -4,7 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
   --background: 0 0% 100%;
   --foreground: 222 47% 11%;
@@ -42,28 +42,36 @@
   --sidebar-border: 214 32% 91%;
   --sidebar-accent: 210 40% 94%;
   --sidebar-accent-foreground: 222 47% 11%;
+
+  /* Chart / accent palette used for sparklines, donut and bar charts,
+     and status pills — same hues in both themes, tuned per background. */
+  --chart-teal: 187 85% 38%;
+  --chart-magenta: 333 82% 48%;
+  --chart-orange: 28 92% 50%;
+  --chart-green: 142 71% 35%;
+  --chart-yellow: 38 92% 50%;
 }
 
 .dark {
-  --background: 222 47% 7%;
+  --background: 224 24% 5%;
   --foreground: 210 40% 98%;
 
-  --card: 222 44% 10%;
+  --card: 226 22% 9%;
   --card-foreground: 210 40% 98%;
 
-  --popover: 222 44% 10%;
+  --popover: 226 22% 9%;
   --popover-foreground: 210 40% 98%;
 
   --primary: 217 91% 60%;
   --primary-foreground: 222 47% 8%;
 
-  --secondary: 217 33% 16%;
+  --secondary: 222 20% 15%;
   --secondary-foreground: 210 40% 98%;
 
-  --muted: 217 33% 16%;
-  --muted-foreground: 215 20% 65%;
+  --muted: 222 20% 14%;
+  --muted-foreground: 222 14% 63%;
 
-  --accent: 217 33% 16%;
+  --accent: 222 20% 16%;
   --accent-foreground: 210 40% 98%;
 
   --destructive: 0 72% 51%;
@@ -72,15 +80,21 @@
   --success: 142 71% 45%;
   --success-foreground: 222 47% 8%;
 
-  --border: 217 33% 19%;
-  --input: 217 33% 19%;
+  --border: 227 20% 17%;
+  --input: 227 20% 17%;
   --ring: 217 91% 60%;
 
-  --sidebar: 222 44% 9%;
+  --sidebar: 226 26% 6%;
   --sidebar-foreground: 210 40% 98%;
-  --sidebar-border: 217 33% 19%;
-  --sidebar-accent: 217 33% 16%;
+  --sidebar-border: 227 20% 15%;
+  --sidebar-accent: 222 20% 15%;
   --sidebar-accent-foreground: 210 40% 98%;
+
+  --chart-teal: 187 92% 45%;
+  --chart-magenta: 333 100% 58%;
+  --chart-orange: 28 100% 60%;
+  --chart-green: 142 71% 45%;
+  --chart-yellow: 43 96% 56%;
 }
 
 @theme inline {
@@ -115,6 +129,12 @@
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-accent: hsl(var(--sidebar-accent));
   --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+
+  --color-chart-teal: hsl(var(--chart-teal));
+  --color-chart-magenta: hsl(var(--chart-magenta));
+  --color-chart-orange: hsl(var(--chart-orange));
+  --color-chart-green: hsl(var(--chart-green));
+  --color-chart-yellow: hsl(var(--chart-yellow));
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

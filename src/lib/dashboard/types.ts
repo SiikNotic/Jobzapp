@@ -4,6 +4,7 @@ export type DashboardData = {
     scheduled: number;
     inProgress: number;
     completed: number;
+    cancelled: number;
   };
   pendingQuotes: number;
   pendingInvoices: number;
@@ -11,4 +12,12 @@ export type DashboardData = {
   expensesThisMonth: number;
   pendingExpenseRequests: number;
   employeeCount: number;
+};
+
+/** One point per calendar month, oldest first. `month` is a YYYY-MM key —
+ * format it for display with the caller's own locale. */
+export type MonthlyTrendPoint = {
+  month: string;
+  income: number;
+  expenses: number;
 };
