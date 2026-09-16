@@ -170,6 +170,32 @@
       "emptyDescription": "Cuando necesites materiales o dinero adicional, solicítalo desde el trabajo correspondiente."
     }
   },
+  "hoursPay": {
+    "title": "Pagos y horas",
+    "subtitle": "Tus horas trabajadas y tus pagos.",
+    "currentWeek": "Semana actual",
+    "hoursWorked": "Horas trabajadas",
+    "estimatedPay": "Pago estimado",
+    "rateNotSet": "Tu empleador aún no ha configurado tu tarifa por hora.",
+    "history": "Historial de semanas anteriores",
+    "historyEmpty": "Aún no hay semanas anteriores registradas.",
+    "entriesEmpty": "No hay horas registradas para esta semana.",
+    "receipts": "Recibos de pago",
+    "receiptsEmpty": "Aún no se han emitido recibos de pago.",
+    "receiptIssued": "Recibo emitido",
+    "receiptPending": "Recibo pendiente de emisión",
+    "receiptPdf": {
+      "title": "Recibo de pago",
+      "receiptNumber": "Número de recibo",
+      "employee": "Empleado",
+      "period": "Período",
+      "hoursWorked": "Horas trabajadas",
+      "hourlyRate": "Tarifa por hora",
+      "grossPay": "Pago bruto",
+      "issuedOn": "Emitido el",
+      "download": "Descargar recibo"
+    }
+  },
   "jobs": {
     "status": {
       "scheduled": "Programado",
@@ -405,6 +431,39 @@
         "noResults": "No se encontraron resultados."
       }
     },
+    "employees": {
+      "list": {
+        "title": "Empleados",
+        "subtitle": "Administra la tarifa de pago y las horas trabajadas de tu equipo.",
+        "empty": "Aún no tienes empleados registrados.",
+        "manageHours": "Horas y pagos"
+      },
+      "detail": {
+        "unnamedEmployee": "Empleado sin nombre",
+        "payRateTitle": "Tarifa por hora",
+        "payRateCurrent": "Tarifa actual",
+        "payRateNotSet": "Sin configurar",
+        "payRateLabel": "Tarifa por hora ($)",
+        "payRateSave": "Guardar tarifa",
+        "timeEntriesTitle": "Registrar horas",
+        "workDate": "Fecha",
+        "hours": "Horas",
+        "notes": "Notas (opcional)",
+        "logHours": "Registrar",
+        "recentEntriesTitle": "Horas recientes",
+        "entriesEmpty": "Aún no hay horas registradas.",
+        "receiptsTitle": "Recibos de pago",
+        "issueReceiptTitle": "Emitir recibo",
+        "weekStartLabel": "Semana que comienza el",
+        "unbilledHours": "Horas sin facturar esa semana",
+        "issueReceipt": "Emitir recibo",
+        "receiptsEmpty": "Aún no se han emitido recibos.",
+        "error": "No se pudo completar la acción. Intenta de nuevo.",
+        "errorNoPayRate": "Configura primero la tarifa por hora.",
+        "errorNoHours": "No hay horas registradas para esa semana.",
+        "errorAlreadyIssued": "Ya se emitió un recibo para esa semana."
+      }
+    },
     "nav": {
       "dashboard": "Dashboard",
       "finances": "Finanzas",
@@ -488,8 +547,7 @@
       "jobs": "Trabajos asignados",
       "materials": "Materiales necesarios",
       "expenses": "Solicitudes de gastos",
-      "hours": "Horas y pagos",
-      "receipts": "Recibos de pago",
+      "hours": "Pagos y horas",
       "profile": "Perfil"
     }
   },

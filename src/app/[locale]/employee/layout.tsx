@@ -3,7 +3,6 @@ import {
   Package,
   Receipt,
   Clock,
-  FileCheck2,
   UserCircle,
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -39,7 +38,6 @@ export default async function EmployeeLayout({
     { href: "/employee/materials", label: t("materials"), icon: <Package className="size-4" /> },
     { href: "/employee/expenses", label: t("expenses"), icon: <Receipt className="size-4" /> },
     { href: "/employee/hours", label: t("hours"), icon: <Clock className="size-4" /> },
-    { href: "/employee/receipts", label: t("receipts"), icon: <FileCheck2 className="size-4" /> },
     { href: "/employee/profile", label: t("profile"), icon: <UserCircle className="size-4" /> },
   ];
 

@@ -1,8 +1,11 @@
-import { getTranslations } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 
-import { ComingSoon } from "@/components/coming-soon";
-
-export default async function ReceiptsPage() {
-  const t = await getTranslations("employee.nav");
-  return <ComingSoon title={t("receipts")} />;
+export default async function ReceiptsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = (await params) as { locale: Locale };
+  redirect({ href: "/employee/hours", locale });
 }

@@ -170,6 +170,32 @@
       "emptyDescription": "When you need extra materials or money, request it from the relevant job."
     }
   },
+  "hoursPay": {
+    "title": "Hours & pay",
+    "subtitle": "Your worked hours and your pay.",
+    "currentWeek": "Current week",
+    "hoursWorked": "Hours worked",
+    "estimatedPay": "Estimated pay",
+    "rateNotSet": "Your employer hasn't set your hourly rate yet.",
+    "history": "Previous weeks",
+    "historyEmpty": "No previous weeks recorded yet.",
+    "entriesEmpty": "No hours logged for this week.",
+    "receipts": "Pay receipts",
+    "receiptsEmpty": "No pay receipts have been issued yet.",
+    "receiptIssued": "Receipt issued",
+    "receiptPending": "Receipt not issued yet",
+    "receiptPdf": {
+      "title": "Pay receipt",
+      "receiptNumber": "Receipt number",
+      "employee": "Employee",
+      "period": "Period",
+      "hoursWorked": "Hours worked",
+      "hourlyRate": "Hourly rate",
+      "grossPay": "Gross pay",
+      "issuedOn": "Issued on",
+      "download": "Download receipt"
+    }
+  },
   "jobs": {
     "status": {
       "scheduled": "Scheduled",
@@ -405,6 +431,39 @@
         "noResults": "No results found."
       }
     },
+    "employees": {
+      "list": {
+        "title": "Employees",
+        "subtitle": "Manage your team's pay rate and worked hours.",
+        "empty": "You don't have any employees yet.",
+        "manageHours": "Hours & pay"
+      },
+      "detail": {
+        "unnamedEmployee": "Unnamed employee",
+        "payRateTitle": "Hourly rate",
+        "payRateCurrent": "Current rate",
+        "payRateNotSet": "Not set",
+        "payRateLabel": "Hourly rate ($)",
+        "payRateSave": "Save rate",
+        "timeEntriesTitle": "Log hours",
+        "workDate": "Date",
+        "hours": "Hours",
+        "notes": "Notes (optional)",
+        "logHours": "Log",
+        "recentEntriesTitle": "Recent hours",
+        "entriesEmpty": "No hours logged yet.",
+        "receiptsTitle": "Pay receipts",
+        "issueReceiptTitle": "Issue receipt",
+        "weekStartLabel": "Week starting",
+        "unbilledHours": "Unbilled hours that week",
+        "issueReceipt": "Issue receipt",
+        "receiptsEmpty": "No receipts issued yet.",
+        "error": "Couldn't complete the action. Try again.",
+        "errorNoPayRate": "Set the hourly rate first.",
+        "errorNoHours": "No hours logged for that week.",
+        "errorAlreadyIssued": "A receipt was already issued for that week."
+      }
+    },
     "nav": {
       "dashboard": "Dashboard",
       "finances": "Finances",
@@ -489,7 +548,6 @@
       "materials": "Required materials",
       "expenses": "Expense requests",
       "hours": "Hours & pay",
-      "receipts": "Pay receipts",
       "profile": "Profile"
     }
   },
