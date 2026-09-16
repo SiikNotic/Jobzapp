@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "title": "Jobzapp",
+    "description": "Management platform for service companies."
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "comingSoon": "Coming soon",
+    "comingSoonDescription": "This module is under construction. Check back soon."
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "toggle": "Change language",
+    "es": "Spanish",
+    "en": "English"
+  },
+  "landing": {
+    "badge": "Management for service companies",
+    "title": "Run your service company from one place",
+    "subtitle": "Jobs, clients, employees, finances and payroll — all in one bilingual platform built for field and office teams.",
+    "cta": "Sign in",
+    "ctaSecondary": "Create account"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Enter your credentials to access your account.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Register your company to start using Jobzapp.",
+      "fullName": "Full name",
+      "companyName": "Company name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "owner": {
+    "dashboard": {
+      "welcome": "Welcome back, {name}",
+      "subtitle": "Your company overview will appear here once your data is connected."
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "finances": "Finances",
+      "jobs": "Jobs",
+      "clients": "Clients / Contacts",
+      "employees": "Employees",
+      "taxes": "Taxes / Payroll",
+      "settings": "Settings"
+    }
+  },
+  "employee": {
+    "nav": {
+      "jobs": "Assigned jobs",
+      "materials": "Required materials",
+      "expenses": "Expense requests",
+      "hours": "Hours & pay",
+      "receipts": "Pay receipts",
+      "profile": "Profile"
+    }
+  },
+  "userMenu": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign out"
+  }
+}

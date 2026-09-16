@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "title": "Jobzapp",
+    "description": "Plataforma de gestión para compañías de servicios."
+  },
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "comingSoon": "Próximamente",
+    "comingSoonDescription": "Este módulo está en construcción. Vuelve pronto."
+  },
+  "theme": {
+    "toggle": "Cambiar tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "language": {
+    "toggle": "Cambiar idioma",
+    "es": "Español",
+    "en": "Inglés"
+  },
+  "landing": {
+    "badge": "Gestión para compañías de servicios",
+    "title": "Dirige tu compañía de servicios desde un solo lugar",
+    "subtitle": "Trabajos, clientes, empleados, finanzas y planillas — todo en una plataforma bilingüe pensada para equipos de campo y oficina.",
+    "cta": "Iniciar sesión",
+    "ctaSecondary": "Crear cuenta"
+  },
+  "auth": {
+    "login": {
+      "title": "Inicia sesión",
+      "subtitle": "Ingresa tus credenciales para acceder a tu cuenta.",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "signUp": "Regístrate"
+    },
+    "signup": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Registra tu compañía para empezar a usar Jobzapp.",
+      "fullName": "Nombre completo",
+      "companyName": "Nombre de la compañía",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "signIn": "Inicia sesión"
+    },
+    "errors": {
+      "generic": "Ocurrió un error. Intenta de nuevo."
+    }
+  },
+  "owner": {
+    "dashboard": {
+      "welcome": "Bienvenido de nuevo, {name}",
+      "subtitle": "Aquí verás el resumen de tu compañía en cuanto conectemos tus datos."
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "finances": "Finanzas",
+      "jobs": "Trabajos",
+      "clients": "Clientes / Contactos",
+      "employees": "Empleados",
+      "taxes": "Taxes / Planillas",
+      "settings": "Configuración"
+    }
+  },
+  "employee": {
+    "nav": {
+      "jobs": "Trabajos asignados",
+      "materials": "Materiales necesarios",
+      "expenses": "Solicitudes de gastos",
+      "hours": "Horas y pagos",
+      "receipts": "Recibos de pago",
+      "profile": "Perfil"
+    }
+  },
+  "userMenu": {
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "signOut": "Cerrar sesión"
+  }
+}
