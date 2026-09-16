@@ -58,6 +58,78 @@
       "welcome": "Bienvenido de nuevo, {name}",
       "subtitle": "Aquí verás el resumen de tu compañía en cuanto conectemos tus datos."
     },
+    "clients": {
+      "type": {
+        "individual": "Individuo",
+        "company": "Compañía"
+      },
+      "list": {
+        "title": "Clientes / Contactos",
+        "subtitle": "Personas y compañías con las que trabajas.",
+        "newClient": "Nuevo cliente",
+        "searchPlaceholder": "Buscar por nombre, teléfono o email...",
+        "filterAll": "Todos",
+        "filterIndividual": "Individuos",
+        "filterCompany": "Compañías",
+        "emptyTitle": "Aún no tienes clientes",
+        "emptyDescription": "Agrega tu primer cliente o contacto para empezar."
+      },
+      "new": {
+        "title": "Nuevo cliente",
+        "subtitle": "Crea un registro para una persona o una compañía.",
+        "checkExistingTitle": "¿Ya existe este cliente?",
+        "checkExistingPlaceholder": "Busca antes de crear uno nuevo..."
+      },
+      "edit": {
+        "title": "Editar cliente"
+      },
+      "detail": {
+        "edit": "Editar",
+        "contact": "Contacto",
+        "address": "Dirección",
+        "notes": "Información adicional",
+        "noData": "Sin información registrada",
+        "contactPerson": "Persona de contacto",
+        "historyTitle": "Historial",
+        "jobsTitle": "Trabajos",
+        "jobsEmpty": "Aún no hay trabajos registrados para este cliente.",
+        "quotesTitle": "Cotizaciones",
+        "quotesEmpty": "Aún no hay cotizaciones para este cliente.",
+        "invoicesTitle": "Invoices",
+        "invoicesEmpty": "Aún no hay invoices para este cliente.",
+        "contractsTitle": "Contratos",
+        "contractsEmpty": "Aún no hay contratos para este cliente."
+      },
+      "form": {
+        "typeTitle": "Tipo de cliente",
+        "typeDescription": "Elige si es una persona individual o una compañía.",
+        "individual": "Individuo",
+        "company": "Compañía",
+        "typeLockedHint": "El tipo no se puede cambiar después de crear el cliente.",
+        "identityTitle": "Información básica",
+        "companyName": "Nombre de la compañía",
+        "fullName": "Nombre completo",
+        "contactPerson": "Persona de contacto (opcional)",
+        "phone": "Teléfono",
+        "email": "Correo electrónico",
+        "addressTitle": "Dirección",
+        "line1": "Dirección línea 1",
+        "line2": "Dirección línea 2 (opcional)",
+        "city": "Ciudad",
+        "state": "Estado/Municipio",
+        "postalCode": "Código postal",
+        "country": "País",
+        "notesTitle": "Información adicional",
+        "notesDescription": "Notas internas sobre este cliente.",
+        "duplicateWarningTitle": "Ya existe un cliente con este correo o teléfono:",
+        "saved": "Cliente guardado correctamente.",
+        "error": "No se pudo guardar. Revisa los campos e intenta de nuevo."
+      },
+      "picker": {
+        "placeholder": "Buscar cliente o contacto...",
+        "noResults": "No se encontraron resultados."
+      }
+    },
     "nav": {
       "dashboard": "Dashboard",
       "finances": "Finanzas",

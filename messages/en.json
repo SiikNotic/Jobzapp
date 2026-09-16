@@ -58,6 +58,78 @@
       "welcome": "Welcome back, {name}",
       "subtitle": "Your company overview will appear here once your data is connected."
     },
+    "clients": {
+      "type": {
+        "individual": "Individual",
+        "company": "Company"
+      },
+      "list": {
+        "title": "Clients / Contacts",
+        "subtitle": "People and companies you work with.",
+        "newClient": "New client",
+        "searchPlaceholder": "Search by name, phone or email...",
+        "filterAll": "All",
+        "filterIndividual": "Individuals",
+        "filterCompany": "Companies",
+        "emptyTitle": "No clients yet",
+        "emptyDescription": "Add your first client or contact to get started."
+      },
+      "new": {
+        "title": "New client",
+        "subtitle": "Create a record for a person or a company.",
+        "checkExistingTitle": "Does this client already exist?",
+        "checkExistingPlaceholder": "Search before creating a new one..."
+      },
+      "edit": {
+        "title": "Edit client"
+      },
+      "detail": {
+        "edit": "Edit",
+        "contact": "Contact",
+        "address": "Address",
+        "notes": "Additional information",
+        "noData": "No information on file",
+        "contactPerson": "Contact person",
+        "historyTitle": "History",
+        "jobsTitle": "Jobs",
+        "jobsEmpty": "No jobs recorded for this client yet.",
+        "quotesTitle": "Quotes",
+        "quotesEmpty": "No quotes for this client yet.",
+        "invoicesTitle": "Invoices",
+        "invoicesEmpty": "No invoices for this client yet.",
+        "contractsTitle": "Contracts",
+        "contractsEmpty": "No contracts for this client yet."
+      },
+      "form": {
+        "typeTitle": "Client type",
+        "typeDescription": "Choose whether this is an individual or a company.",
+        "individual": "Individual",
+        "company": "Company",
+        "typeLockedHint": "Type can't be changed after the client is created.",
+        "identityTitle": "Basic information",
+        "companyName": "Company name",
+        "fullName": "Full name",
+        "contactPerson": "Contact person (optional)",
+        "phone": "Phone",
+        "email": "Email",
+        "addressTitle": "Address",
+        "line1": "Address line 1",
+        "line2": "Address line 2 (optional)",
+        "city": "City",
+        "state": "State/Municipality",
+        "postalCode": "Postal code",
+        "country": "Country",
+        "notesTitle": "Additional information",
+        "notesDescription": "Internal notes about this client.",
+        "duplicateWarningTitle": "A client with this email or phone already exists:",
+        "saved": "Client saved successfully.",
+        "error": "Couldn't save. Check the fields and try again."
+      },
+      "picker": {
+        "placeholder": "Search client or contact...",
+        "noResults": "No results found."
+      }
+    },
     "nav": {
       "dashboard": "Dashboard",
       "finances": "Finances",
