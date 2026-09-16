@@ -66,6 +66,68 @@
       "employees": "Employees",
       "taxes": "Taxes / Payroll",
       "settings": "Settings"
+    },
+    "settings": {
+      "title": "Company settings",
+      "subtitle": "This information will appear on your quotes, invoices, and contracts.",
+      "saved": "Changes saved successfully.",
+      "error": "Couldn't save. Check the fields and try again.",
+      "sections": {
+        "identity": {
+          "title": "Company identity",
+          "description": "The name and logo your clients will recognize.",
+          "logo": "Upload logo",
+          "logoHint": "PNG, JPG, WEBP or SVG. Max 2 MB.",
+          "removeLogo": "Remove logo",
+          "legalName": "Legal name",
+          "tradeName": "Trade name (DBA)"
+        },
+        "contact": {
+          "title": "Contact information",
+          "email": "Email",
+          "phone": "Phone"
+        },
+        "address": {
+          "title": "Address & jurisdiction",
+          "country": "Country / Jurisdiction",
+          "countryUS": "United States",
+          "countryPR": "Puerto Rico",
+          "line1": "Address line 1",
+          "line2": "Address line 2 (optional)",
+          "city": "City",
+          "stateUS": "State",
+          "statePR": "Municipality",
+          "postalCode": "Postal code"
+        },
+        "documents": {
+          "title": "Tax & document information",
+          "description": "Included on quotes, invoices, and contracts.",
+          "taxIdUS": "EIN (Employer Identification Number)",
+          "taxIdPR": "Merchant Registration No. / EIN",
+          "currency": "Currency",
+          "notes": "Notes for quotes, invoices & contracts",
+          "notesHint": "E.g. payment terms, licenses, or warranties."
+        },
+        "preferences": {
+          "title": "Preferences",
+          "defaultLanguage": "Default language",
+          "themePreference": "Preferred theme"
+        },
+        "jobCodes": {
+          "title": "Job identifiers",
+          "description": "Define the job code pattern. Use # for each digit of the number.",
+          "pattern": "Code pattern",
+          "patternError": "Use letters, numbers, dashes and at least one # (e.g. AA-####).",
+          "examples": "Examples: AA-####, AA-#######, W-####, JOB-###",
+          "nextCode": "Next code with this pattern",
+          "issued": "Codes issued so far: {count}"
+        }
+      }
+    },
+    "taxes": {
+      "jurisdictionUS": "United States",
+      "jurisdictionPR": "Puerto Rico",
+      "preview": "Based on your company's jurisdiction ({jurisdiction}), these forms will show up here:"
     }
   },
   "employee": {

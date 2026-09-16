@@ -3,7 +3,13 @@ import { Construction } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function ComingSoon({ title }: { title: string }) {
+export function ComingSoon({
+  title,
+  children,
+}: {
+  title: string;
+  children?: React.ReactNode;
+}) {
   const t = useTranslations("common");
 
   return (
@@ -18,6 +24,7 @@ export function ComingSoon({ title }: { title: string }) {
           {t("comingSoonDescription")}
         </CardContent>
       </Card>
+      {children}
     </div>
   );
 }

@@ -1,8 +1,28 @@
-import { getTranslations } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
+import { getCurrentProfile } from "@/lib/auth/get-profile";
+import { getCompanyById } from "@/lib/company/get-company";
+import { CompanySettingsForm } from "@/components/owner/company-settings-form";
 
-import { ComingSoon } from "@/components/coming-soon";
+export default async function SettingsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = (await params) as { locale: Locale };
+  const { profile } = await getCurrentProfile();
 
-export default async function SettingsPage() {
-  const t = await getTranslations("owner.nav");
-  return <ComingSoon title={t("settings")} />;
+  if (!profile?.company_id) {
+    redirect({ href: "/login", locale });
+    return null;
+  }
+
+  const company = await getCompanyById(profile.company_id);
+
+  if (!company) {
+    redirect({ href: "/login", locale });
+    return null;
+  }
+
+  return <CompanySettingsForm company={company} locale={locale} />;
 }

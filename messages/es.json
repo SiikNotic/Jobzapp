@@ -66,6 +66,68 @@
       "employees": "Empleados",
       "taxes": "Taxes / Planillas",
       "settings": "Configuración"
+    },
+    "settings": {
+      "title": "Configuración de la compañía",
+      "subtitle": "Esta información aparecerá en tus cotizaciones, facturas y contratos.",
+      "saved": "Cambios guardados correctamente.",
+      "error": "No se pudo guardar. Revisa los campos e intenta de nuevo.",
+      "sections": {
+        "identity": {
+          "title": "Identidad de la compañía",
+          "description": "Nombre y logo con los que te reconocerán tus clientes.",
+          "logo": "Subir logo",
+          "logoHint": "PNG, JPG, WEBP o SVG. Máx. 2 MB.",
+          "removeLogo": "Quitar logo",
+          "legalName": "Nombre legal",
+          "tradeName": "Nombre comercial (DBA)"
+        },
+        "contact": {
+          "title": "Información de contacto",
+          "email": "Correo electrónico",
+          "phone": "Teléfono"
+        },
+        "address": {
+          "title": "Dirección y jurisdicción",
+          "country": "País / Jurisdicción",
+          "countryUS": "Estados Unidos",
+          "countryPR": "Puerto Rico",
+          "line1": "Dirección línea 1",
+          "line2": "Dirección línea 2 (opcional)",
+          "city": "Ciudad",
+          "stateUS": "Estado",
+          "statePR": "Municipio",
+          "postalCode": "Código postal"
+        },
+        "documents": {
+          "title": "Información fiscal y para documentos",
+          "description": "Se incluye en cotizaciones, facturas y contratos.",
+          "taxIdUS": "EIN (Employer Identification Number)",
+          "taxIdPR": "Núm. de Registro de Comerciante / EIN",
+          "currency": "Moneda",
+          "notes": "Notas para cotizaciones, facturas y contratos",
+          "notesHint": "Ej. términos de pago, licencias o garantías."
+        },
+        "preferences": {
+          "title": "Preferencias",
+          "defaultLanguage": "Idioma predeterminado",
+          "themePreference": "Tema preferido"
+        },
+        "jobCodes": {
+          "title": "Identificadores de trabajos",
+          "description": "Define el patrón de los códigos de trabajo. Usa # por cada dígito del número.",
+          "pattern": "Patrón del código",
+          "patternError": "Usa letras, números, guiones y al menos un # (ej. AA-####).",
+          "examples": "Ejemplos: AA-####, AA-#######, W-####, JOB-###",
+          "nextCode": "Próximo código con este patrón",
+          "issued": "Códigos emitidos hasta ahora: {count}"
+        }
+      }
+    },
+    "taxes": {
+      "jurisdictionUS": "Estados Unidos",
+      "jurisdictionPR": "Puerto Rico",
+      "preview": "Según la jurisdicción de tu compañía ({jurisdiction}), aquí aparecerán estos formularios:"
     }
   },
   "employee": {
