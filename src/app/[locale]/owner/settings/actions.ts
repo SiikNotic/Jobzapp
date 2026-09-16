@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createClient } from "@/lib/supabase/server";
+import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import { companySettingsSchema } from "@/lib/company/schema";
 import { COMPANY_SELECT_COLUMNS, type Company } from "@/lib/company/types";
 import type { Locale } from "@/i18n/routing";
@@ -18,27 +18,10 @@ export async function updateCompanySettings(
   locale: Locale,
   formData: FormData
 ): Promise<UpdateCompanySettingsResult> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { success: false, error: "unauthenticated" };
-  }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("company_id, role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || profile.role !== "owner" || !profile.company_id) {
+  const { supabase, companyId } = await requireOwnerCompany();
+  if (!companyId) {
     return { success: false, error: "forbidden" };
   }
-
-  const companyId = profile.company_id;
 
   const raw = {
     name: String(formData.get("name") ?? ""),

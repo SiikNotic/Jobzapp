@@ -3,6 +3,109 @@
     "title": "Jobzapp",
     "description": "Management platform for service companies."
   },
+  "jobs": {
+    "status": {
+      "scheduled": "Scheduled",
+      "in_progress": "In progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "materials": {
+      "empty": "No materials specified.",
+      "namePlaceholder": "Material",
+      "quantityPlaceholder": "Quantity",
+      "remove": "Remove material",
+      "addMaterial": "Add material"
+    },
+    "history": {
+      "title": "Status history",
+      "by": "by"
+    },
+    "list": {
+      "title": "Jobs",
+      "subtitle": "Schedule and track your company's jobs.",
+      "newJob": "New job",
+      "searchPlaceholder": "Search by code or client...",
+      "filterAll": "All",
+      "emptyTitle": "No jobs yet",
+      "emptyDescription": "Create your first job to start scheduling your team.",
+      "myJobsTitle": "My jobs",
+      "myJobsSubtitle": "Jobs assigned to you.",
+      "emptyEmployeeTitle": "No jobs assigned",
+      "emptyEmployeeDescription": "When a job is assigned to you, it will show up here."
+    },
+    "new": {
+      "title": "New job",
+      "subtitle": "The job code will be generated automatically when you save."
+    },
+    "edit": {
+      "title": "Edit job"
+    },
+    "detail": {
+      "edit": "Edit",
+      "schedule": "Date & time",
+      "address": "Address",
+      "description": "Description",
+      "additionalInfo": "Additional information",
+      "contract": "Contract",
+      "assignedEmployees": "Assigned employees",
+      "noData": "No information on file",
+      "client": "Client",
+      "documents": "Associated documents",
+      "noDocuments": "No documents associated with this job yet.",
+      "noEmployeesAvailable": "You don't have any employees to assign yet.",
+      "unnamedEmployee": "Unnamed employee",
+      "assign": "Assign",
+      "unassign": "Remove"
+    },
+    "form": {
+      "clientTitle": "Client / contact",
+      "clientDescription": "Search for an existing client; their information will be filled in automatically.",
+      "clientRequired": "Select a client to continue.",
+      "changeClient": "Change client",
+      "scheduleTitle": "Date, time & priority",
+      "date": "Date",
+      "time": "Time",
+      "priority": "Priority",
+      "priorityLow": "Low",
+      "priorityMedium": "Medium",
+      "priorityHigh": "High",
+      "priorityUrgent": "Urgent",
+      "addressTitle": "Job address",
+      "addressDescription": "Filled in from the client's address; you can edit it if needed.",
+      "line1": "Address line 1",
+      "line2": "Address line 2 (optional)",
+      "city": "City",
+      "state": "State/Municipality",
+      "postalCode": "Postal code",
+      "country": "Country",
+      "detailsTitle": "Job details",
+      "description": "Job description",
+      "materials": "Required materials",
+      "additionalInfo": "Additional information",
+      "employeesTitle": "Assigned employees",
+      "employeesDescription": "Choose who will do this job.",
+      "noEmployees": "You don't have any employees yet.",
+      "unnamedEmployee": "Unnamed employee",
+      "contractTitle": "Contract",
+      "contractDescription": "Optional: select an existing template.",
+      "noTemplates": "No templates available yet",
+      "selectTemplate": "Select a template",
+      "saved": "Job saved successfully.",
+      "error": "Couldn't save. Check the fields and try again."
+    },
+    "employeeActions": {
+      "start": "Start job",
+      "complete": "Mark as completed",
+      "error": "Couldn't update the status. Try again."
+    }
+  },
   "common": {
     "loading": "Loading...",
     "save": "Save",

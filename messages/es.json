@@ -3,6 +3,109 @@
     "title": "Jobzapp",
     "description": "Plataforma de gestión para compañías de servicios."
   },
+  "jobs": {
+    "status": {
+      "scheduled": "Programado",
+      "in_progress": "En progreso",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "materials": {
+      "empty": "No se especificaron materiales.",
+      "namePlaceholder": "Material",
+      "quantityPlaceholder": "Cantidad",
+      "remove": "Quitar material",
+      "addMaterial": "Agregar material"
+    },
+    "history": {
+      "title": "Historial de estados",
+      "by": "por"
+    },
+    "list": {
+      "title": "Trabajos",
+      "subtitle": "Programa y da seguimiento a los trabajos de tu compañía.",
+      "newJob": "Nuevo trabajo",
+      "searchPlaceholder": "Buscar por código o cliente...",
+      "filterAll": "Todos",
+      "emptyTitle": "Aún no hay trabajos",
+      "emptyDescription": "Crea tu primer trabajo para empezar a programar tu equipo.",
+      "myJobsTitle": "Mis trabajos",
+      "myJobsSubtitle": "Trabajos que tienes asignados.",
+      "emptyEmployeeTitle": "No tienes trabajos asignados",
+      "emptyEmployeeDescription": "Cuando te asignen un trabajo, aparecerá aquí."
+    },
+    "new": {
+      "title": "Nuevo trabajo",
+      "subtitle": "El código del trabajo se generará automáticamente al guardar."
+    },
+    "edit": {
+      "title": "Editar trabajo"
+    },
+    "detail": {
+      "edit": "Editar",
+      "schedule": "Fecha y hora",
+      "address": "Dirección",
+      "description": "Descripción",
+      "additionalInfo": "Información adicional",
+      "contract": "Contrato",
+      "assignedEmployees": "Empleados asignados",
+      "noData": "Sin información registrada",
+      "client": "Cliente",
+      "documents": "Documentos asociados",
+      "noDocuments": "Aún no hay documentos asociados a este trabajo.",
+      "noEmployeesAvailable": "Aún no tienes empleados para asignar.",
+      "unnamedEmployee": "Empleado sin nombre",
+      "assign": "Asignar",
+      "unassign": "Quitar"
+    },
+    "form": {
+      "clientTitle": "Cliente / contacto",
+      "clientDescription": "Busca un cliente existente; su información se completará automáticamente.",
+      "clientRequired": "Selecciona un cliente para continuar.",
+      "changeClient": "Cambiar cliente",
+      "scheduleTitle": "Fecha, hora y prioridad",
+      "date": "Fecha",
+      "time": "Hora",
+      "priority": "Prioridad",
+      "priorityLow": "Baja",
+      "priorityMedium": "Media",
+      "priorityHigh": "Alta",
+      "priorityUrgent": "Urgente",
+      "addressTitle": "Dirección del trabajo",
+      "addressDescription": "Se completa con la dirección del cliente; puedes editarla si es necesario.",
+      "line1": "Dirección línea 1",
+      "line2": "Dirección línea 2 (opcional)",
+      "city": "Ciudad",
+      "state": "Estado/Municipio",
+      "postalCode": "Código postal",
+      "country": "País",
+      "detailsTitle": "Detalles del trabajo",
+      "description": "Descripción del trabajo",
+      "materials": "Materiales necesarios",
+      "additionalInfo": "Información adicional",
+      "employeesTitle": "Empleados asignados",
+      "employeesDescription": "Selecciona quién realizará este trabajo.",
+      "noEmployees": "Aún no tienes empleados registrados.",
+      "unnamedEmployee": "Empleado sin nombre",
+      "contractTitle": "Contrato",
+      "contractDescription": "Opcional: selecciona una plantilla existente.",
+      "noTemplates": "No hay plantillas disponibles todavía",
+      "selectTemplate": "Selecciona una plantilla",
+      "saved": "Trabajo guardado correctamente.",
+      "error": "No se pudo guardar. Revisa los campos e intenta de nuevo."
+    },
+    "employeeActions": {
+      "start": "Iniciar trabajo",
+      "complete": "Marcar como completado",
+      "error": "No se pudo actualizar el estado. Intenta de nuevo."
+    }
+  },
   "common": {
     "loading": "Cargando...",
     "save": "Guardar",

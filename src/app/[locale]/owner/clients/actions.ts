@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import { clientSchema } from "@/lib/clients/schema";
 import {
   CLIENT_SELECT_COLUMNS,
@@ -15,27 +15,6 @@ import type { Locale } from "@/i18n/routing";
 export type ClientActionResult =
   | { success: true; client: Client }
   | { success: false; error: string };
-
-async function requireOwnerCompany() {
-  const supabase = await createSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { supabase, companyId: null };
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("company_id, role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || profile.role !== "owner" || !profile.company_id) {
-    return { supabase, companyId: null };
-  }
-
-  return { supabase, companyId: profile.company_id as string, userId: user.id };
-}
 
 function parseClientForm(formData: FormData) {
   return clientSchema.safeParse({
