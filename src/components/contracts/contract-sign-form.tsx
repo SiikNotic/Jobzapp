@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { Loader2, PenLine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,6 @@ import { signContractAction } from "@/lib/job-contracts/public-actions";
 
 export function ContractSignForm({ token }: { token: string }) {
   const t = useTranslations("contracts.sign");
-  const router = useRouter();
   const [name, setName] = React.useState("");
   const [signature, setSignature] = React.useState<string | null>(null);
   const [pending, setPending] = React.useState(false);
@@ -32,7 +30,7 @@ export function ContractSignForm({ token }: { token: string }) {
     const result = await signContractAction(token, name, signature);
 
     if (result.success) {
-      router.refresh();
+      window.location.reload();
     } else {
       setError(t("error"));
       setPending(false);

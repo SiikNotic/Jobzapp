@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import type {
   ExpenseItem,
   FinancePeriod,

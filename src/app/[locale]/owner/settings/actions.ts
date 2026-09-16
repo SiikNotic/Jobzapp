@@ -1,11 +1,6 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
 import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import { companySettingsSchema } from "@/lib/company/schema";
 import { COMPANY_SELECT_COLUMNS, type Company } from "@/lib/company/types";
-import type { Locale } from "@/i18n/routing";
 
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 const ALLOWED_LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
@@ -14,10 +9,7 @@ export type UpdateCompanySettingsResult =
   | { success: true; company: Company }
   | { success: false; error: string };
 
-export async function updateCompanySettings(
-  locale: Locale,
-  formData: FormData
-): Promise<UpdateCompanySettingsResult> {
+export async function updateCompanySettings(formData: FormData): Promise<UpdateCompanySettingsResult> {
   const { supabase, companyId } = await requireOwnerCompany();
   if (!companyId) {
     return { success: false, error: "forbidden" };
@@ -89,8 +81,6 @@ export async function updateCompanySettings(
   if (error || !updated) {
     return { success: false, error: "save_failed" };
   }
-
-  revalidatePath(`/${locale}/owner/settings`);
 
   return { success: true, company: updated as Company };
 }

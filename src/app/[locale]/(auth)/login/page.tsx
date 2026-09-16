@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
 
-import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,7 +21,7 @@ import { authErrorMessageKey } from "../error-messages";
 export default function LoginPage() {
   const t = useTranslations("auth.login");
   const tErrors = useTranslations("auth.errors");
-  const { locale } = useParams<{ locale: Locale }>();
+  const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
@@ -36,11 +34,13 @@ export default function LoginPage() {
     const formData = new FormData();
     formData.set("email", email);
     formData.set("password", password);
-    const result = await login(locale, formData);
+    const result = await login(formData);
     if (result?.error) {
       setError(tErrors(authErrorMessageKey(result.error)));
       setPending(false);
+      return;
     }
+    router.replace("/owner/dashboard");
   }
 
   return (

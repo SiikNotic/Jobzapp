@@ -1,9 +1,4 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
-import type { Locale } from "@/i18n/routing";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import type { Job, JobStatus } from "./types";
 
 export type ChangeJobStatusResult =
@@ -17,12 +12,8 @@ export type ChangeJobStatusResult =
  * in_progress/completed. Every change is logged to job_status_events by
  * a database trigger regardless of which caller made it.
  */
-export async function changeJobStatus(
-  locale: Locale,
-  jobId: string,
-  status: JobStatus
-): Promise<ChangeJobStatusResult> {
-  const supabase = await createSupabaseClient();
+export async function changeJobStatus(jobId: string, status: JobStatus): Promise<ChangeJobStatusResult> {
+  const supabase = createSupabaseClient();
 
   const { data, error } = await supabase.rpc("update_job_status", {
     p_job_id: jobId,
@@ -32,11 +23,6 @@ export async function changeJobStatus(
   if (error || !data) {
     return { success: false, error: "not_allowed" };
   }
-
-  revalidatePath(`/${locale}/owner/jobs/${jobId}`);
-  revalidatePath(`/${locale}/owner/jobs`);
-  revalidatePath(`/${locale}/employee/jobs/${jobId}`);
-  revalidatePath(`/${locale}/employee/jobs`);
 
   return { success: true, job: data as Job };
 }

@@ -1,40 +1,48 @@
-import { FileSignature } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { Link, redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { FileSignature } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { getCompanyById } from "@/lib/company/get-company";
+import type { Company } from "@/lib/company/types";
 import { listContractTemplatesFull } from "@/lib/contract-templates/queries";
+import type { ContractTemplate } from "@/lib/contract-templates/types";
 import { CompanySettingsForm } from "@/components/owner/company-settings-form";
 import { Card, CardContent } from "@/components/ui/card";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function SettingsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "contractTemplates.teaser" });
-  const { profile } = await getCurrentProfile();
+export default function SettingsPage() {
+  const t = useTranslations("contractTemplates.teaser");
+  const { profile } = useAuth();
 
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  const [company, setCompany] = React.useState<Company | null | undefined>(undefined);
+  const [templates, setTemplates] = React.useState<ContractTemplate[]>([]);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    const companyId = profile.company_id;
+    Promise.all([getCompanyById(companyId), listContractTemplatesFull(companyId)]).then(
+      ([companyData, templateData]) => {
+        setCompany(companyData);
+        setTemplates(templateData);
+      }
+    );
+  }, [profile?.company_id]);
+
+  if (company === undefined) {
+    return <PageLoadingSkeleton />;
   }
-
-  const company = await getCompanyById(profile.company_id);
 
   if (!company) {
-    redirect({ href: "/login", locale });
     return null;
   }
-
-  const templates = await listContractTemplatesFull(profile.company_id);
 
   return (
     <div className="flex flex-col gap-6">
-      <CompanySettingsForm company={company} locale={locale} />
+      <CompanySettingsForm company={company} />
 
       <Link href="/owner/settings/contract-templates">
         <Card className="transition-colors hover:bg-accent">

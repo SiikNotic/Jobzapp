@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import { COMPANY_SELECT_COLUMNS, type Company } from "./types";
 
 export async function getCompanyById(

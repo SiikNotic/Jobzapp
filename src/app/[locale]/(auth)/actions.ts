@@ -1,11 +1,7 @@
-"use server";
+import { createClient } from "@/lib/supabase/client";
 
-import { redirect } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Locale } from "@/i18n/routing";
-
-export async function login(locale: Locale, formData: FormData) {
-  const supabase = await createClient();
+export async function login(formData: FormData) {
+  const supabase = createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
     email: String(formData.get("email")),
@@ -16,11 +12,11 @@ export async function login(locale: Locale, formData: FormData) {
     return { error: error.code ?? "generic" };
   }
 
-  redirect({ href: "/owner/dashboard", locale });
+  return { error: null };
 }
 
-export async function signup(locale: Locale, formData: FormData) {
-  const supabase = await createClient();
+export async function signup(formData: FormData) {
+  const supabase = createClient();
 
   const fullName = String(formData.get("fullName"));
   const companyName = String(formData.get("companyName"));
@@ -40,11 +36,10 @@ export async function signup(locale: Locale, formData: FormData) {
     return { error: error.code ?? "generic" };
   }
 
-  redirect({ href: "/owner/dashboard", locale });
+  return { error: null };
 }
 
-export async function signOut(locale: Locale) {
-  const supabase = await createClient();
+export async function signOut() {
+  const supabase = createClient();
   await supabase.auth.signOut();
-  redirect({ href: "/login", locale });
 }

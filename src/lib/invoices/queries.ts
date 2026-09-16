@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { INVOICE_SELECT_COLUMNS, type Invoice } from "./types";
 
 export async function listInvoicesForJob(jobId: string): Promise<Invoice[]> {

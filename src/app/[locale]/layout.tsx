@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/lib/auth/auth-provider";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -63,7 +64,7 @@ export default async function LocaleLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <AuthProvider>{children}</AuthProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

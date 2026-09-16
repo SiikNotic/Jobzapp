@@ -4,36 +4,32 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Check, Loader2, Pencil, Printer, Send, X, ArrowRightCircle } from "lucide-react";
 
-import { Link, useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
+import { Link } from "@/i18n/navigation";
 import type { Quote } from "@/lib/quotes/types";
 import { Button } from "@/components/ui/button";
 import {
   convertQuoteToInvoice,
   decideQuote,
   sendQuote,
-} from "@/app/[locale]/owner/jobs/[id]/quotes/actions";
+} from "@/app/[locale]/owner/jobs/quotes/actions";
 
 export function QuoteActions({
   jobId,
   quote,
   invoiceId,
-  locale,
 }: {
   jobId: string;
   quote: Quote;
   invoiceId: string | null;
-  locale: Locale;
 }) {
   const t = useTranslations("documents.actions");
-  const router = useRouter();
   const [pending, setPending] = React.useState<string | null>(null);
 
   async function run(key: string, action: () => Promise<{ success: boolean }>) {
     setPending(key);
     const result = await action();
     setPending(null);
-    if (result.success) router.refresh();
+    if (result.success) window.location.reload();
   }
 
   return (
@@ -41,13 +37,13 @@ export function QuoteActions({
       {quote.status === "draft" ? (
         <>
           <Button asChild variant="outline" size="sm">
-            <Link href={`/owner/jobs/${jobId}/quotes/${quote.id}/edit`}>
+            <Link href={`/owner/jobs/quotes/edit?jobId=${jobId}&quoteId=${quote.id}`}>
               <Pencil /> {t("edit")}
             </Link>
           </Button>
           <Button
             size="sm"
-            onClick={() => run("send", () => sendQuote(locale, jobId, quote.id))}
+            onClick={() => run("send", () => sendQuote(quote.id))}
             disabled={pending !== null}
           >
             {pending === "send" ? <Loader2 className="animate-spin" /> : <Send />}
@@ -60,7 +56,7 @@ export function QuoteActions({
         <>
           <Button
             size="sm"
-            onClick={() => run("accept", () => decideQuote(locale, jobId, quote.id, "accepted"))}
+            onClick={() => run("accept", () => decideQuote(quote.id, "accepted"))}
             disabled={pending !== null}
           >
             {pending === "accept" ? <Loader2 className="animate-spin" /> : <Check />}
@@ -69,7 +65,7 @@ export function QuoteActions({
           <Button
             size="sm"
             variant="outline"
-            onClick={() => run("reject", () => decideQuote(locale, jobId, quote.id, "rejected"))}
+            onClick={() => run("reject", () => decideQuote(quote.id, "rejected"))}
             disabled={pending !== null}
           >
             {pending === "reject" ? <Loader2 className="animate-spin" /> : <X />}
@@ -81,7 +77,7 @@ export function QuoteActions({
       {quote.status === "accepted" && !invoiceId ? (
         <Button
           size="sm"
-          onClick={() => run("convert", () => convertQuoteToInvoice(locale, jobId, quote.id))}
+          onClick={() => run("convert", () => convertQuoteToInvoice(jobId, quote.id))}
           disabled={pending !== null}
         >
           {pending === "convert" ? <Loader2 className="animate-spin" /> : <ArrowRightCircle />}
@@ -91,7 +87,7 @@ export function QuoteActions({
 
       {invoiceId ? (
         <Button asChild variant="outline" size="sm">
-          <Link href={`/owner/jobs/${jobId}/invoices/${invoiceId}`}>{t("viewInvoice")}</Link>
+          <Link href={`/owner/jobs/invoices/view?jobId=${jobId}&invoiceId=${invoiceId}`}>{t("viewInvoice")}</Link>
         </Button>
       ) : null}
 

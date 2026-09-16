@@ -1,10 +1,11 @@
-import { AlertTriangle, Banknote, FileDown, Receipt, TrendingUp, Users, Wallet } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import { useFormatter } from "next-intl";
+"use client";
 
-import type { Locale } from "@/i18n/routing";
-import { redirect } from "@/i18n/navigation";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { AlertTriangle, Banknote, FileDown, Receipt, TrendingUp, Users, Wallet } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
+import { useAuth } from "@/lib/auth/auth-provider";
 import { TAX_FORMS_BY_COUNTRY } from "@/lib/company/tax-jurisdiction";
 import { buildTaxReport } from "@/lib/taxes/queries";
 import { resolvePeriod, currentYearPeriod } from "@/lib/finances/period";
@@ -13,26 +14,26 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PeriodFilter } from "@/components/owner/finances/period-filter";
 import { TaxReportExport } from "@/components/owner/taxes/tax-report-export";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function TaxesPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ from?: string; to?: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { from, to } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "owner.taxes" });
+function TaxesPageInner() {
+  const t = useTranslations("owner.taxes");
+  const { profile } = useAuth();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from") ?? undefined;
+  const to = searchParams.get("to") ?? undefined;
 
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  const [report, setReport] = React.useState<TaxReportData | null>(null);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    const period = resolvePeriod({ from, to }) ?? currentYearPeriod();
+    buildTaxReport(profile.company_id, period).then(setReport);
+  }, [profile?.company_id, from, to]);
+
+  if (!report) {
+    return <PageLoadingSkeleton />;
   }
-
-  const period = resolvePeriod({ from, to }) ?? currentYearPeriod();
-  const report = await buildTaxReport(profile.company_id, period);
 
   const forms = TAX_FORMS_BY_COUNTRY[report.company.country];
   const jurisdictionLabel = report.company.country === "PR" ? t("jurisdictionPR") : t("jurisdictionUS");
@@ -68,7 +69,7 @@ export default async function TaxesPage({
         </CardContent>
       </Card>
 
-      <PeriodFilter initialFrom={period.from} initialTo={period.to} allowAllTime={false} />
+      <PeriodFilter initialFrom={report.period.from} initialTo={report.period.to} allowAllTime={false} />
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between gap-2">
@@ -175,6 +176,14 @@ export default async function TaxesPage({
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function TaxesPage() {
+  return (
+    <React.Suspense fallback={<PageLoadingSkeleton />}>
+      <TaxesPageInner />
+    </React.Suspense>
   );
 }
 

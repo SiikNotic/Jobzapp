@@ -1,35 +1,56 @@
+"use client";
+
+import * as React from "react";
 import { Clock, DollarSign, FileCheck2 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 
 import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { getCompanyById } from "@/lib/company/get-company";
 import { buildWeekSummaries, getMyPayRate, listMyReceipts, listMyTimeEntries } from "@/lib/hours-pay/queries";
+import type { PayRate, PayReceipt, WeekSummary } from "@/lib/hours-pay/types";
 import { todayWeekStart } from "@/lib/hours-pay/weeks";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ReceiptDownloadButton } from "@/components/employee/receipt-download-button";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function EmployeeHoursPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "hoursPay" });
+type HoursState = {
+  payRate: PayRate | null;
+  weeks: WeekSummary[];
+  receipts: PayReceipt[];
+  companyName: string;
+};
 
-  const { profile } = await getCurrentProfile();
-  const [payRate, entries, receipts] = await Promise.all([
-    getMyPayRate(),
-    listMyTimeEntries(),
-    listMyReceipts(),
-  ]);
+export default function EmployeeHoursPage() {
+  const { locale } = useParams<{ locale: Locale }>();
+  const t = useTranslations("hoursPay");
+  const { user, profile } = useAuth();
 
-  const company = profile?.company_id ? await getCompanyById(profile.company_id) : null;
-  const companyName = company?.trade_name || company?.name || "";
+  const [state, setState] = React.useState<HoursState | null>(null);
+
+  React.useEffect(() => {
+    if (!user) return;
+    Promise.all([getMyPayRate(), listMyTimeEntries(), listMyReceipts()]).then(
+      async ([payRate, entries, receipts]) => {
+        const company = profile?.company_id ? await getCompanyById(profile.company_id) : null;
+        setState({
+          payRate,
+          weeks: buildWeekSummaries(entries, receipts),
+          receipts,
+          companyName: company?.trade_name || company?.name || "",
+        });
+      }
+    );
+  }, [user, profile?.company_id]);
+
+  if (!state) {
+    return <PageLoadingSkeleton />;
+  }
+
+  const { payRate, weeks, receipts, companyName } = state;
   const employeeName = profile?.full_name ?? "";
-
-  const weeks = buildWeekSummaries(entries, receipts);
   const currentWeekStart = todayWeekStart();
   const currentWeek = weeks.find((w) => w.weekStart === currentWeekStart);
   const historyWeeks = weeks.filter((w) => w.weekStart !== currentWeekStart);

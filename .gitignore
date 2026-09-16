@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+# NEXT_PUBLIC_* values only — safe to commit, static export bakes them in
+# at build time and there's no server to inject them at runtime.
+!.env.production
 
 # vercel
 .vercel

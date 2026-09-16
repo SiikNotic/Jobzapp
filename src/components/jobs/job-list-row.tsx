@@ -11,7 +11,7 @@ export function JobListRow({ job, hrefBase }: { job: JobListItem; hrefBase: stri
 
   return (
     <Link
-      href={`${hrefBase}/${job.id}`}
+      href={`${hrefBase}?id=${job.id}`}
       className="flex flex-col gap-2 rounded-lg border bg-card p-4 transition-colors hover:bg-accent sm:flex-row sm:items-center sm:justify-between"
     >
       <div className="flex flex-col gap-1">

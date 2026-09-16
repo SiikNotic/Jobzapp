@@ -1,20 +1,29 @@
-import { Receipt } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import type { Locale } from "@/i18n/routing";
+import * as React from "react";
+import { Receipt } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { useAuth } from "@/lib/auth/auth-provider";
 import { listExpenseRequestsForEmployee } from "@/lib/expense-requests/queries";
+import type { EmployeeExpenseRequestItem } from "@/lib/expense-requests/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { ExpenseRequestCard } from "@/components/expense-requests/expense-request-card";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function EmployeeExpensesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "expenseRequests" });
+export default function EmployeeExpensesPage() {
+  const t = useTranslations("expenseRequests");
+  const { user } = useAuth();
+  const [requests, setRequests] = React.useState<EmployeeExpenseRequestItem[] | null>(null);
 
-  const requests = await listExpenseRequestsForEmployee();
+  React.useEffect(() => {
+    if (!user) return;
+    listExpenseRequestsForEmployee().then(setRequests);
+  }, [user]);
+
+  if (!requests) {
+    return <PageLoadingSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -40,7 +49,6 @@ export default async function EmployeeExpensesPage({
               canReview={false}
               jobId={request.job_id}
               jobCode={request.job_code}
-              locale={locale}
             />
           ))}
         </div>

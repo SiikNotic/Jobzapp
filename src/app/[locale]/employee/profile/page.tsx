@@ -1,8 +1,10 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 
 import { ComingSoon } from "@/components/coming-soon";
 
-export default async function EmployeeProfilePage() {
-  const t = await getTranslations("employee.nav");
+export default function EmployeeProfilePage() {
+  const t = useTranslations("employee.nav");
   return <ComingSoon title={t("profile")} />;
 }

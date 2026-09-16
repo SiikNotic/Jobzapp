@@ -5,7 +5,6 @@ import { Briefcase, LogOut, Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Link, usePathname } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -76,15 +75,13 @@ export function AppShell({
   navItems,
   fullName,
   email,
-  locale,
   onSignOut,
   children,
 }: {
   navItems: NavItem[];
   fullName: string | null;
   email: string | null;
-  locale: Locale;
-  onSignOut: (locale: Locale) => Promise<void>;
+  onSignOut: () => void;
   children: React.ReactNode;
 }) {
   const t = useTranslations("userMenu");
@@ -148,7 +145,7 @@ export function AppShell({
                   ) : null}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => onSignOut(locale)}>
+                <DropdownMenuItem onClick={() => onSignOut()}>
                   <LogOut /> {t("signOut")}
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Briefcase,
   Package,
@@ -5,33 +7,16 @@ import {
   Clock,
   UserCircle,
 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
-import { redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import { useRouter } from "@/i18n/navigation";
 import { AppShell, type NavItem } from "@/components/app-shell";
+import { ProtectedRoute } from "@/components/auth/protected-route";
 import { signOut } from "../(auth)/actions";
 
-export default async function EmployeeLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { user, profile } = await getCurrentProfile();
-
-  if (!user || !profile) {
-    redirect({ href: "/login", locale });
-  }
-
-  if (profile!.role !== "employee") {
-    redirect({ href: "/owner/dashboard", locale });
-  }
-
-  const t = await getTranslations({ locale, namespace: "employee.nav" });
+export default function EmployeeLayout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("employee.nav");
+  const router = useRouter();
 
   const navItems: NavItem[] = [
     { href: "/employee/jobs", label: t("jobs"), icon: <Briefcase className="size-4" /> },
@@ -42,14 +27,20 @@ export default async function EmployeeLayout({
   ];
 
   return (
-    <AppShell
-      navItems={navItems}
-      fullName={profile!.full_name}
-      email={user!.email}
-      locale={locale}
-      onSignOut={signOut}
-    >
-      {children}
-    </AppShell>
+    <ProtectedRoute role="employee">
+      {({ user, profile }) => (
+        <AppShell
+          navItems={navItems}
+          fullName={profile.full_name}
+          email={user.email ?? null}
+          onSignOut={async () => {
+            await signOut();
+            router.replace("/login");
+          }}
+        >
+          {children}
+        </AppShell>
+      )}
+    </ProtectedRoute>
   );
 }

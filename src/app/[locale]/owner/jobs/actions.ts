@@ -1,11 +1,6 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
 import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import { jobSchema } from "@/lib/jobs/schema";
 import { JOB_SELECT_COLUMNS, type Job } from "@/lib/jobs/types";
-import type { Locale } from "@/i18n/routing";
 
 export type JobActionResult = { success: true; job: Job } | { success: false; error: string };
 
@@ -29,7 +24,7 @@ function parseJobForm(formData: FormData) {
   });
 }
 
-export async function createJob(locale: Locale, formData: FormData): Promise<JobActionResult> {
+export async function createJob(formData: FormData): Promise<JobActionResult> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId) return { success: false, error: "forbidden" };
 
@@ -66,16 +61,10 @@ export async function createJob(locale: Locale, formData: FormData): Promise<Job
     );
   }
 
-  revalidatePath(`/${locale}/owner/jobs`);
-
   return { success: true, job: job as Job };
 }
 
-export async function updateJob(
-  locale: Locale,
-  jobId: string,
-  formData: FormData
-): Promise<JobActionResult> {
+export async function updateJob(jobId: string, formData: FormData): Promise<JobActionResult> {
   const { supabase, companyId } = await requireOwnerCompany();
   if (!companyId) return { success: false, error: "forbidden" };
 
@@ -95,17 +84,10 @@ export async function updateJob(
 
   if (error || !job) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/jobs`);
-  revalidatePath(`/${locale}/owner/jobs/${jobId}`);
-
   return { success: true, job: job as Job };
 }
 
-export async function assignEmployee(
-  locale: Locale,
-  jobId: string,
-  employeeId: string
-): Promise<{ success: boolean }> {
+export async function assignEmployee(jobId: string, employeeId: string): Promise<{ success: boolean }> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId) return { success: false };
 
@@ -115,15 +97,10 @@ export async function assignEmployee(
 
   if (error) return { success: false };
 
-  revalidatePath(`/${locale}/owner/jobs/${jobId}`);
   return { success: true };
 }
 
-export async function unassignEmployee(
-  locale: Locale,
-  jobId: string,
-  employeeId: string
-): Promise<{ success: boolean }> {
+export async function unassignEmployee(jobId: string, employeeId: string): Promise<{ success: boolean }> {
   const { supabase, companyId } = await requireOwnerCompany();
   if (!companyId) return { success: false };
 
@@ -135,6 +112,5 @@ export async function unassignEmployee(
 
   if (error) return { success: false };
 
-  revalidatePath(`/${locale}/owner/jobs/${jobId}`);
   return { success: true };
 }

@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { QUOTE_SELECT_COLUMNS, type Quote } from "./types";
 
 export async function listQuotesForJob(jobId: string): Promise<Quote[]> {

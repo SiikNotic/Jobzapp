@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { JOB_CONTRACT_SELECT_COLUMNS, type JobContract, type PublicContract } from "./types";
 
 export async function getJobContract(jobId: string): Promise<JobContract | null> {

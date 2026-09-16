@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Loader2, Trash2 } from "lucide-react";
 
 import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { ContractTemplate } from "@/lib/contract-templates/types";
 import { CONTRACT_PLACEHOLDERS } from "@/lib/contract-templates/render";
 import { Button } from "@/components/ui/button";
@@ -22,10 +21,8 @@ import {
 
 export function ContractTemplateForm({
   template,
-  locale,
 }: {
   template?: ContractTemplate;
-  locale: Locale;
 }) {
   const t = useTranslations("contractTemplates.form");
   const tCommon = useTranslations("common");
@@ -43,8 +40,8 @@ export function ContractTemplateForm({
     setFeedback(null);
 
     const result = isEditing
-      ? await updateContractTemplate(locale, template!.id, formData)
-      : await createContractTemplate(locale, formData);
+      ? await updateContractTemplate(template!.id, formData)
+      : await createContractTemplate(formData);
 
     if (result.success) {
       if (isEditing) {
@@ -62,7 +59,7 @@ export function ContractTemplateForm({
   async function handleDelete() {
     if (!template) return;
     setDeleting(true);
-    const result = await deleteContractTemplate(locale, template.id);
+    const result = await deleteContractTemplate(template.id);
     if (result.success) {
       router.push("/owner/settings/contract-templates");
     } else {

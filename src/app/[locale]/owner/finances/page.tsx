@@ -1,10 +1,12 @@
-import { Briefcase, FileText, Receipt, TrendingDown, TrendingUp, Wallet } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import { useFormatter } from "next-intl";
+"use client";
 
-import { Link, redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { Briefcase, FileText, Receipt, TrendingDown, TrendingUp, Wallet } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import {
   getFinanceSummary,
   listExpensesForCompanyFinance,
@@ -16,6 +18,7 @@ import {
 import { resolvePeriod } from "@/lib/finances/period";
 import type {
   ExpenseItem,
+  FinanceSummary,
   IncomeItem,
   InvoiceSummaryItem,
   JobFinancialSummary,
@@ -24,35 +27,48 @@ import type {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InvoiceStatusBadge } from "@/components/documents/invoice-status-badge";
 import { PeriodFilter } from "@/components/owner/finances/period-filter";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function FinancesPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ from?: string; to?: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { from, to } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "owner.finances" });
+type FinanceState = {
+  summary: FinanceSummary;
+  income: IncomeItem[];
+  invoices: InvoiceSummaryItem[];
+  expenses: ExpenseItem[];
+  payroll: PayrollItem[];
+  jobSummaries: JobFinancialSummary[];
+};
 
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+function FinancesPageInner() {
+  const t = useTranslations("owner.finances");
+  const { profile } = useAuth();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from") ?? undefined;
+  const to = searchParams.get("to") ?? undefined;
+
+  const [state, setState] = React.useState<FinanceState | null>(null);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    const companyId = profile.company_id;
+    const period = resolvePeriod({ from, to });
+
+    Promise.all([
+      getFinanceSummary(companyId, period),
+      listIncomeForCompany(companyId, period),
+      listInvoicesForCompanyFinance(companyId, period),
+      listExpensesForCompanyFinance(companyId, period),
+      listPayrollForCompany(companyId, period),
+      listJobFinancialSummaries(companyId, period),
+    ]).then(([summary, income, invoices, expenses, payroll, jobSummaries]) => {
+      setState({ summary, income, invoices, expenses, payroll, jobSummaries });
+    });
+  }, [profile?.company_id, from, to]);
+
+  if (!state) {
+    return <PageLoadingSkeleton />;
   }
 
-  const period = resolvePeriod({ from, to });
-  const companyId = profile.company_id;
-
-  const [summary, income, invoices, expenses, payroll, jobSummaries] = await Promise.all([
-    getFinanceSummary(companyId, period),
-    listIncomeForCompany(companyId, period),
-    listInvoicesForCompanyFinance(companyId, period),
-    listExpensesForCompanyFinance(companyId, period),
-    listPayrollForCompany(companyId, period),
-    listJobFinancialSummaries(companyId, period),
-  ]);
+  const { summary, income, invoices, expenses, payroll, jobSummaries } = state;
 
   return (
     <div className="flex flex-col gap-6">
@@ -148,6 +164,14 @@ export default async function FinancesPage({
   );
 }
 
+export default function FinancesPage() {
+  return (
+    <React.Suspense fallback={<PageLoadingSkeleton />}>
+      <FinancesPageInner />
+    </React.Suspense>
+  );
+}
+
 function SummaryCard({
   icon,
   label,
@@ -180,7 +204,7 @@ function IncomeTable({ items }: { items: IncomeItem[] }) {
       {items.map((item) => (
         <Link
           key={item.id}
-          href={`/owner/jobs/${item.job_id}/invoices/${item.id}`}
+          href={`/owner/jobs/invoices/view?jobId=${item.job_id}&invoiceId=${item.id}`}
           className="flex flex-wrap items-center justify-between gap-2 border-b py-2 text-sm last:border-0 hover:bg-accent"
         >
           <div>
@@ -204,7 +228,7 @@ function InvoicesTable({ items }: { items: InvoiceSummaryItem[] }) {
       {items.map((item) => (
         <Link
           key={item.id}
-          href={`/owner/jobs/${item.job_id}/invoices/${item.id}`}
+          href={`/owner/jobs/invoices/view?jobId=${item.job_id}&invoiceId=${item.id}`}
           className="flex flex-wrap items-center justify-between gap-2 border-b py-2 text-sm last:border-0 hover:bg-accent"
         >
           <div>
@@ -231,7 +255,7 @@ function ExpensesTable({ items }: { items: ExpenseItem[] }) {
       {items.map((item) => (
         <Link
           key={item.id}
-          href={`/owner/jobs/${item.job_id}`}
+          href={`/owner/jobs/view?id=${item.job_id}`}
           className="flex flex-wrap items-center justify-between gap-2 border-b py-2 text-sm last:border-0 hover:bg-accent"
         >
           <div>
@@ -254,7 +278,7 @@ function PayrollTable({ items }: { items: PayrollItem[] }) {
       {items.map((item) => (
         <Link
           key={item.id}
-          href={`/owner/employees/${item.employee_id}`}
+          href={`/owner/employees/view?id=${item.employee_id}`}
           className="flex flex-wrap items-center justify-between gap-2 border-b py-2 text-sm last:border-0 hover:bg-accent"
         >
           <div>
@@ -278,7 +302,7 @@ function JobSummaryTable({ items }: { items: JobFinancialSummary[] }) {
       {items.map((item) => (
         <Link
           key={item.job_id}
-          href={`/owner/jobs/${item.job_id}`}
+          href={`/owner/jobs/view?id=${item.job_id}`}
           className="flex flex-wrap items-center justify-between gap-2 border-b py-2 text-sm last:border-0 hover:bg-accent"
         >
           <span className="font-mono font-medium">{item.job_code}</span>

@@ -28,7 +28,7 @@ export function RecentJobsTable({
       {jobs.map((job) => (
         <Link
           key={job.id}
-          href={`/owner/jobs/${job.id}`}
+          href={`/owner/jobs/view?id=${job.id}`}
           className="flex items-center gap-3 border-b py-3 text-sm last:border-0 hover:bg-accent"
         >
           <Avatar className="size-8 shrink-0">

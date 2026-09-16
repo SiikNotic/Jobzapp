@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 
 import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import { createExpenseRequest } from "@/lib/expense-requests/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 
-export function ExpenseRequestForm({ jobId, locale }: { jobId: string; locale: Locale }) {
+export function ExpenseRequestForm({ jobId }: { jobId: string }) {
   const t = useTranslations("expenseRequests.form");
   const router = useRouter();
   const [pending, setPending] = React.useState(false);
@@ -23,11 +22,10 @@ export function ExpenseRequestForm({ jobId, locale }: { jobId: string; locale: L
     setPending(true);
     setError(null);
 
-    const result = await createExpenseRequest(locale, jobId, formData);
+    const result = await createExpenseRequest(jobId, formData);
 
     if (result.success) {
-      router.push(`/employee/jobs/${jobId}`);
-      router.refresh();
+      router.push(`/employee/jobs/view?id=${jobId}`);
     } else {
       setError(t("error"));
       setPending(false);

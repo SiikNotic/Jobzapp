@@ -5,7 +5,6 @@ import { useFormatter, useTranslations } from "next-intl";
 import { Check, Loader2, X } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { ExpenseRequestWithNames } from "@/lib/expense-requests/types";
 import { reviewExpenseRequest } from "@/lib/expense-requests/actions";
 import { Button } from "@/components/ui/button";
@@ -16,13 +15,11 @@ export function ExpenseRequestCard({
   request,
   canReview,
   jobId,
-  locale,
   jobCode,
 }: {
   request: ExpenseRequestWithNames;
   canReview: boolean;
   jobId: string;
-  locale: Locale;
   /** Shown as a link back to the job when this card appears outside the
    * job's own detail page (e.g. the employee's cross-job request list). */
   jobCode?: string;
@@ -36,7 +33,7 @@ export function ExpenseRequestCard({
   async function handleDecision(decision: "approved" | "rejected") {
     setPending(decision);
     setError(false);
-    const result = await reviewExpenseRequest(locale, jobId, request.id, decision, notes);
+    const result = await reviewExpenseRequest(request.id, decision, notes);
     setPending(null);
     if (!result.success) setError(true);
   }
@@ -49,7 +46,7 @@ export function ExpenseRequestCard({
           <p className="text-sm text-muted-foreground">{request.reason}</p>
           {jobCode ? (
             <Link
-              href={`/employee/jobs/${jobId}`}
+              href={`/employee/jobs/view?id=${jobId}`}
               className="mt-1 inline-block font-mono text-xs text-primary hover:underline"
             >
               {jobCode}

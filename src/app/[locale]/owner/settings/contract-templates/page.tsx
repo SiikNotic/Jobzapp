@@ -1,28 +1,30 @@
-import { FileSignature, Plus } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { Link, redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { FileSignature, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { listContractTemplatesFull } from "@/lib/contract-templates/queries";
+import type { ContractTemplate } from "@/lib/contract-templates/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function ContractTemplatesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "contractTemplates.list" });
+export default function ContractTemplatesPage() {
+  const t = useTranslations("contractTemplates.list");
+  const { profile } = useAuth();
+  const [templates, setTemplates] = React.useState<ContractTemplate[] | null>(null);
 
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    listContractTemplatesFull(profile.company_id).then(setTemplates);
+  }, [profile?.company_id]);
+
+  if (!templates) {
+    return <PageLoadingSkeleton />;
   }
-
-  const templates = await listContractTemplatesFull(profile.company_id);
 
   return (
     <div className="flex flex-col gap-6">
@@ -51,7 +53,7 @@ export default async function ContractTemplatesPage({
           {templates.map((template) => (
             <Link
               key={template.id}
-              href={`/owner/settings/contract-templates/${template.id}/edit`}
+              href={`/owner/settings/contract-templates/edit?id=${template.id}`}
               className="flex items-center justify-between gap-2 rounded-lg border bg-card p-4 transition-colors hover:bg-accent"
             >
               <div className="flex items-center gap-2">

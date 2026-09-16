@@ -1,27 +1,28 @@
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { useTranslations } from "next-intl";
+
+import { useAuth } from "@/lib/auth/auth-provider";
 import { getCompanyById } from "@/lib/company/get-company";
+import type { Company } from "@/lib/company/types";
 import { ClientForm } from "@/components/owner/client-form";
 import { NewClientDuplicateCheck } from "@/components/owner/new-client-duplicate-check";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function NewClientPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "owner.clients.new" });
+export default function NewClientPage() {
+  const t = useTranslations("owner.clients.new");
+  const { profile } = useAuth();
+  const [company, setCompany] = React.useState<Company | null | undefined>(undefined);
 
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    getCompanyById(profile.company_id).then(setCompany);
+  }, [profile?.company_id]);
+
+  if (company === undefined) {
+    return <PageLoadingSkeleton />;
   }
-
-  const company = await getCompanyById(profile.company_id);
 
   return (
     <div className="flex flex-col gap-6">
@@ -32,7 +33,7 @@ export default async function NewClientPage({
 
       <NewClientDuplicateCheck />
 
-      <ClientForm locale={locale} defaultCountry={company?.country} />
+      <ClientForm defaultCountry={company?.country} />
     </div>
   );
 }

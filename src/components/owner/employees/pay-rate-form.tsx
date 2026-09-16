@@ -4,8 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import { setPayRate } from "@/lib/hours-pay/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,14 +12,11 @@ import { Label } from "@/components/ui/label";
 export function PayRateForm({
   employeeId,
   currentRate,
-  locale,
 }: {
   employeeId: string;
   currentRate: number | null;
-  locale: Locale;
 }) {
   const t = useTranslations("owner.employees.detail");
-  const router = useRouter();
   const [value, setValue] = React.useState(currentRate?.toString() ?? "");
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -30,9 +25,9 @@ export function PayRateForm({
     e.preventDefault();
     setPending(true);
     setError(false);
-    const result = await setPayRate(locale, employeeId, Number(value));
+    const result = await setPayRate(employeeId, Number(value));
     setPending(false);
-    if (result.success) router.refresh();
+    if (result.success) window.location.reload();
     else setError(true);
   }
 

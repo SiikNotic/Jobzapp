@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 
 import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { Quote } from "@/lib/quotes/types";
 import type { LineItem } from "@/lib/documents/types";
 import { Button } from "@/components/ui/button";
@@ -13,20 +12,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineItemsEditor } from "@/components/owner/documents/line-items-editor";
-import { createQuote, updateQuote } from "@/app/[locale]/owner/jobs/[id]/quotes/actions";
+import { createQuote, updateQuote } from "@/app/[locale]/owner/jobs/quotes/actions";
 
 export function QuoteForm({
   jobId,
   quote,
   defaultClientAddress,
   defaultTerms,
-  locale,
 }: {
   jobId: string;
   quote?: Quote;
   defaultClientAddress?: string | null;
   defaultTerms?: string | null;
-  locale: Locale;
 }) {
   const t = useTranslations("documents.form");
   const tCommon = useTranslations("common");
@@ -47,11 +44,11 @@ export function QuoteForm({
     setError(null);
 
     const result = isEditing
-      ? await updateQuote(locale, jobId, quote!.id, formData)
-      : await createQuote(locale, jobId, formData);
+      ? await updateQuote(quote!.id, formData)
+      : await createQuote(jobId, formData);
 
     if (result.success) {
-      router.push(`/owner/jobs/${jobId}/quotes/${result.quote.id}`);
+      router.push(`/owner/jobs/quotes/view?jobId=${jobId}&quoteId=${result.quote.id}`);
     } else {
       setError(t("error"));
       setPending(false);

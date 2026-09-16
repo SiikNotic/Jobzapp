@@ -1,28 +1,30 @@
-import { Clock, Users } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { Link, redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { Clock, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { listEmployees } from "@/lib/jobs/queries";
+import type { Employee } from "@/lib/jobs/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function EmployeesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "owner.employees.list" });
+export default function EmployeesPage() {
+  const t = useTranslations("owner.employees.list");
+  const { profile } = useAuth();
+  const [employees, setEmployees] = React.useState<Employee[] | null>(null);
 
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    listEmployees(profile.company_id).then(setEmployees);
+  }, [profile?.company_id]);
+
+  if (!employees) {
+    return <PageLoadingSkeleton />;
   }
-
-  const employees = await listEmployees(profile.company_id);
 
   return (
     <div className="flex flex-col gap-6">
@@ -45,7 +47,7 @@ export default async function EmployeesPage({
               <CardContent className="flex flex-wrap items-center justify-between gap-2 py-4">
                 <span className="font-medium">{employee.full_name ?? "—"}</span>
                 <Button asChild size="sm" variant="outline">
-                  <Link href={`/owner/employees/${employee.id}`}>
+                  <Link href={`/owner/employees/view?id=${employee.id}`}>
                     <Clock /> {t("manageHours")}
                   </Link>
                 </Button>

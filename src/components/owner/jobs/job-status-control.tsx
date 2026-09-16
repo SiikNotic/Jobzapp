@@ -4,8 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { JobStatus } from "@/lib/jobs/types";
 import {
   Select,
@@ -21,21 +19,18 @@ const STATUSES: JobStatus[] = ["scheduled", "in_progress", "completed", "cancell
 export function JobStatusControl({
   jobId,
   status,
-  locale,
 }: {
   jobId: string;
   status: JobStatus;
-  locale: Locale;
 }) {
   const t = useTranslations("jobs.status");
-  const router = useRouter();
   const [pending, setPending] = React.useState(false);
 
   async function handleChange(value: string) {
     setPending(true);
-    const result = await changeJobStatus(locale, jobId, value as JobStatus);
+    const result = await changeJobStatus(jobId, value as JobStatus);
     setPending(false);
-    if (result.success) router.refresh();
+    if (result.success) window.location.reload();
   }
 
   return (

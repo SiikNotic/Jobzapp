@@ -4,17 +4,14 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Loader2, Plus } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import { logTimeEntry } from "@/lib/hours-pay/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export function TimeEntryForm({ employeeId, locale }: { employeeId: string; locale: Locale }) {
+export function TimeEntryForm({ employeeId }: { employeeId: string }) {
   const t = useTranslations("owner.employees.detail");
-  const router = useRouter();
   const formRef = React.useRef<HTMLFormElement>(null);
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -24,11 +21,11 @@ export function TimeEntryForm({ employeeId, locale }: { employeeId: string; loca
     setPending(true);
     setError(false);
     const formData = new FormData(e.currentTarget);
-    const result = await logTimeEntry(locale, employeeId, formData);
+    const result = await logTimeEntry(employeeId, formData);
     setPending(false);
     if (result.success) {
       formRef.current?.reset();
-      router.refresh();
+      window.location.reload();
     } else {
       setError(true);
     }

@@ -1,40 +1,42 @@
-import { Plus, Briefcase } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { Link, redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { Plus, Briefcase } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { listJobsForOwner } from "@/lib/jobs/queries";
-import type { JobStatus } from "@/lib/jobs/types";
+import type { JobListItem, JobStatus } from "@/lib/jobs/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { JobsSearchBar } from "@/components/owner/jobs/jobs-search-bar";
 import { JobListRow } from "@/components/jobs/job-list-row";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
 const VALID_STATUSES: JobStatus[] = ["scheduled", "in_progress", "completed", "cancelled"];
 
-export default async function OwnerJobsPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ q?: string; status?: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { q = "", status = "all" } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "jobs.list" });
-
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
-  }
-
+function OwnerJobsPageInner() {
+  const t = useTranslations("jobs.list");
+  const { profile } = useAuth();
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q") ?? "";
+  const status = searchParams.get("status") ?? "all";
   const validStatus: JobStatus | "all" = VALID_STATUSES.includes(status as JobStatus)
     ? (status as JobStatus)
     : "all";
 
-  const jobs = await listJobsForOwner(profile.company_id, { q, status: validStatus });
+  const [jobs, setJobs] = React.useState<JobListItem[] | null>(null);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    listJobsForOwner(profile.company_id, { q, status: validStatus }).then(setJobs);
+  }, [profile?.company_id, q, validStatus]);
+
+  if (!jobs) {
+    return <PageLoadingSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -63,10 +65,18 @@ export default async function OwnerJobsPage({
       ) : (
         <div className="flex flex-col gap-2">
           {jobs.map((job) => (
-            <JobListRow key={job.id} job={job} hrefBase="/owner/jobs" />
+            <JobListRow key={job.id} job={job} hrefBase="/owner/jobs/view" />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+export default function OwnerJobsPage() {
+  return (
+    <React.Suspense fallback={<PageLoadingSkeleton />}>
+      <OwnerJobsPageInner />
+    </React.Suspense>
   );
 }

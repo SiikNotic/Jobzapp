@@ -1,15 +1,11 @@
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import type { Locale } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+
 import { ContractTemplateForm } from "@/components/owner/contract-template-form";
 
-export default async function NewContractTemplatePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const t = await getTranslations({ locale, namespace: "contractTemplates.new" });
+export default function NewContractTemplatePage() {
+  const t = useTranslations("contractTemplates.new");
 
   return (
     <div className="flex flex-col gap-6">
@@ -18,7 +14,7 @@ export default async function NewContractTemplatePage({
         <p className="text-muted-foreground">{t("subtitle")}</p>
       </div>
 
-      <ContractTemplateForm locale={locale} />
+      <ContractTemplateForm />
     </div>
   );
 }

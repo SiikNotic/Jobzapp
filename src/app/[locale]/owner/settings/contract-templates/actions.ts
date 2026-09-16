@@ -1,14 +1,9 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
 import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import { contractTemplateSchema } from "@/lib/contract-templates/schema";
 import {
   CONTRACT_TEMPLATE_SELECT_COLUMNS,
   type ContractTemplate,
 } from "@/lib/contract-templates/types";
-import type { Locale } from "@/i18n/routing";
 
 export type ContractTemplateActionResult =
   | { success: true; template: ContractTemplate }
@@ -21,10 +16,7 @@ function parseForm(formData: FormData) {
   });
 }
 
-export async function createContractTemplate(
-  locale: Locale,
-  formData: FormData
-): Promise<ContractTemplateActionResult> {
+export async function createContractTemplate(formData: FormData): Promise<ContractTemplateActionResult> {
   const { supabase, companyId } = await requireOwnerCompany();
   if (!companyId) return { success: false, error: "forbidden" };
 
@@ -39,13 +31,10 @@ export async function createContractTemplate(
 
   if (error || !data) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/settings/contract-templates`);
-
   return { success: true, template: data as ContractTemplate };
 }
 
 export async function updateContractTemplate(
-  locale: Locale,
   templateId: string,
   formData: FormData
 ): Promise<ContractTemplateActionResult> {
@@ -65,15 +54,10 @@ export async function updateContractTemplate(
 
   if (error || !data) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/settings/contract-templates`);
-
   return { success: true, template: data as ContractTemplate };
 }
 
-export async function deleteContractTemplate(
-  locale: Locale,
-  templateId: string
-): Promise<{ success: boolean }> {
+export async function deleteContractTemplate(templateId: string): Promise<{ success: boolean }> {
   const { supabase, companyId } = await requireOwnerCompany();
   if (!companyId) return { success: false };
 
@@ -85,6 +69,5 @@ export async function deleteContractTemplate(
 
   if (error) return { success: false };
 
-  revalidatePath(`/${locale}/owner/settings/contract-templates`);
   return { success: true };
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import * as React from "react";
 import {
   AlertCircle,
   Briefcase,
@@ -11,14 +14,18 @@ import {
   UserSquare2,
   Wallet,
 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 
 import type { Locale } from "@/i18n/routing";
-import { Link, redirect } from "@/i18n/navigation";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { getDashboardData, getMonthlyTrend, listRecentJobs } from "@/lib/dashboard/queries";
+import type { DashboardData, MonthlyTrendPoint, RecentJobItem } from "@/lib/dashboard/types";
 import { listPendingExpenseRequestsForCompany } from "@/lib/expense-requests/queries";
+import type { EmployeeExpenseRequestItem } from "@/lib/expense-requests/types";
 import { listRecentAuditEvents } from "@/lib/audit/queries";
+import type { AuditEvent } from "@/lib/audit/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlobalSearch } from "@/components/owner/dashboard/global-search";
 import { StatTile } from "@/components/owner/dashboard/stat-tile";
@@ -28,6 +35,7 @@ import { RecentJobsTable } from "@/components/owner/dashboard/recent-jobs-table"
 import { DonutChart } from "@/components/charts/donut-chart";
 import { ChartLegend } from "@/components/charts/chart-legend";
 import { MonthlyTrendChart } from "@/components/charts/monthly-trend-chart";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
 function monthOverMonthChange(points: { value: number }[]): number | undefined {
   if (points.length < 2) return undefined;
@@ -37,29 +45,41 @@ function monthOverMonthChange(points: { value: number }[]): number | undefined {
   return ((current - previous) / Math.abs(previous)) * 100;
 }
 
-export default async function OwnerDashboardPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { user, profile } = await getCurrentProfile();
-  const t = await getTranslations({ locale, namespace: "owner.dashboard" });
+export default function OwnerDashboardPage() {
+  const { locale } = useParams<{ locale: Locale }>();
+  const { user, profile } = useAuth();
+  const t = useTranslations("owner.dashboard");
 
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  const [data, setData] = React.useState<DashboardData | null>(null);
+  const [pendingRequests, setPendingRequests] = React.useState<EmployeeExpenseRequestItem[]>([]);
+  const [recentActivity, setRecentActivity] = React.useState<AuditEvent[]>([]);
+  const [monthlyTrend, setMonthlyTrend] = React.useState<MonthlyTrendPoint[]>([]);
+  const [recentJobs, setRecentJobs] = React.useState<RecentJobItem[]>([]);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    const companyId = profile.company_id;
+
+    Promise.all([
+      getDashboardData(companyId),
+      listPendingExpenseRequestsForCompany(companyId, 5),
+      listRecentAuditEvents(companyId, 8),
+      getMonthlyTrend(companyId, 6),
+      listRecentJobs(companyId, 5),
+    ]).then(([dashboardData, requests, activity, trend, jobs]) => {
+      setData(dashboardData);
+      setPendingRequests(requests);
+      setRecentActivity(activity);
+      setMonthlyTrend(trend);
+      setRecentJobs(jobs);
+    });
+  }, [profile?.company_id]);
+
+  if (!data) {
+    return <PageLoadingSkeleton />;
   }
 
-  const [data, pendingRequests, recentActivity, monthlyTrend, recentJobs] = await Promise.all([
-    getDashboardData(profile.company_id),
-    listPendingExpenseRequestsForCompany(profile.company_id, 5),
-    listRecentAuditEvents(profile.company_id, 8),
-    getMonthlyTrend(profile.company_id, 6),
-    listRecentJobs(profile.company_id, 5),
-  ]);
-
-  const name = profile.full_name ?? user?.email ?? "";
+  const name = profile?.full_name ?? user?.email ?? "";
   const monthFormat = new Intl.DateTimeFormat(locale, { month: "short" });
   const monthLabel = (key: string) => monthFormat.format(new Date(`${key}-01T00:00:00`));
 
@@ -227,7 +247,7 @@ export default async function OwnerDashboardPage({
             {pendingRequests.map((request) => (
               <Link
                 key={request.id}
-                href={`/owner/jobs/${request.job_id}`}
+                href={`/owner/jobs/view?id=${request.job_id}`}
                 className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-3 text-sm hover:bg-accent"
               >
                 <div>

@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { AlertTriangle, Building2, Loader2, User } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { Client, ClientType } from "@/lib/clients/types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -60,11 +59,9 @@ function toFormState(client?: Client, defaultCountry?: string): FormState {
 
 export function ClientForm({
   client,
-  locale,
   defaultCountry,
 }: {
   client?: Client;
-  locale: Locale;
   defaultCountry?: string;
 }) {
   const t = useTranslations("owner.clients.form");
@@ -106,8 +103,8 @@ export function ClientForm({
     setFeedback(null);
 
     const result = isEditing
-      ? await updateClientRecord(locale, client!.id, formData)
-      : await createClientRecord(locale, formData);
+      ? await updateClientRecord(client!.id, formData)
+      : await createClientRecord(formData);
 
     if (result.success) {
       setFeedback({ type: "success", message: t("saved") });
@@ -239,7 +236,7 @@ export function ClientForm({
             {duplicates.map((dup) => (
               <li key={dup.id}>
                 <Link
-                  href={`/owner/clients/${dup.id}`}
+                  href={`/owner/clients/view?id=${dup.id}`}
                   className="text-primary underline-offset-4 hover:underline"
                 >
                   {dup.display_name}

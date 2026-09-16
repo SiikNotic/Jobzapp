@@ -1,14 +1,17 @@
-import { History } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import type { Locale } from "@/i18n/routing";
-import { redirect } from "@/i18n/navigation";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { History } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
+import { useAuth } from "@/lib/auth/auth-provider";
 import { listAuditEvents } from "@/lib/audit/queries";
-import type { AuditEntityType } from "@/lib/audit/types";
+import type { AuditEntityType, AuditEvent } from "@/lib/audit/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AuditEventRow } from "@/components/owner/dashboard/audit-event-row";
 import { ActivityFilter } from "@/components/owner/dashboard/activity-filter";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
 const VALID_TYPES: AuditEntityType[] = [
   "job",
@@ -21,25 +24,23 @@ const VALID_TYPES: AuditEntityType[] = [
   "job_assignment",
 ];
 
-export default async function DashboardActivityPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ type?: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { type } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "owner.dashboard.activity" });
-
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
-  }
-
+function DashboardActivityPageInner() {
+  const t = useTranslations("owner.dashboard.activity");
+  const { profile } = useAuth();
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type") ?? undefined;
   const entityType = VALID_TYPES.includes(type as AuditEntityType) ? (type as AuditEntityType) : undefined;
-  const events = await listAuditEvents(profile.company_id, { entityType, limit: 200 });
+
+  const [events, setEvents] = React.useState<AuditEvent[] | null>(null);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    listAuditEvents(profile.company_id, { entityType, limit: 200 }).then(setEvents);
+  }, [profile?.company_id, entityType]);
+
+  if (!events) {
+    return <PageLoadingSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -69,5 +70,13 @@ export default async function DashboardActivityPage({
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function DashboardActivityPage() {
+  return (
+    <React.Suspense fallback={<PageLoadingSkeleton />}>
+      <DashboardActivityPageInner />
+    </React.Suspense>
   );
 }

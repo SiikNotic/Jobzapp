@@ -1,9 +1,4 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
 import { requireOwnerCompany } from "@/lib/auth/require-owner";
-import type { Locale } from "@/i18n/routing";
 import { payRateSchema, timeEntrySchema, issueReceiptSchema } from "./schema";
 import { getWeekEnd } from "./weeks";
 
@@ -27,11 +22,7 @@ export async function previewUnbilledHours(
   return (data ?? []).reduce((sum, row) => sum + Number(row.hours), 0);
 }
 
-export async function setPayRate(
-  locale: Locale,
-  employeeId: string,
-  hourlyRate: number
-): Promise<HoursPayActionResult> {
+export async function setPayRate(employeeId: string, hourlyRate: number): Promise<HoursPayActionResult> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId || !userId) return { success: false, error: "not_allowed" };
 
@@ -51,15 +42,10 @@ export async function setPayRate(
 
   if (error) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/employees/${employeeId}`);
   return { success: true };
 }
 
-export async function logTimeEntry(
-  locale: Locale,
-  employeeId: string,
-  formData: FormData
-): Promise<HoursPayActionResult> {
+export async function logTimeEntry(employeeId: string, formData: FormData): Promise<HoursPayActionResult> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId || !userId) return { success: false, error: "not_allowed" };
 
@@ -82,30 +68,20 @@ export async function logTimeEntry(
 
   if (error) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/employees/${employeeId}`);
   return { success: true };
 }
 
-export async function deleteTimeEntry(
-  locale: Locale,
-  employeeId: string,
-  entryId: string
-): Promise<HoursPayActionResult> {
+export async function deleteTimeEntry(entryId: string): Promise<HoursPayActionResult> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId || !userId) return { success: false, error: "not_allowed" };
 
   const { error } = await supabase.from("time_entries").delete().eq("id", entryId);
   if (error) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/employees/${employeeId}`);
   return { success: true };
 }
 
-export async function issueReceipt(
-  locale: Locale,
-  employeeId: string,
-  weekStartDate: string
-): Promise<HoursPayActionResult> {
+export async function issueReceipt(employeeId: string, weekStartDate: string): Promise<HoursPayActionResult> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId || !userId) return { success: false, error: "not_allowed" };
 
@@ -155,6 +131,5 @@ export async function issueReceipt(
     return { success: false, error: "save_failed" };
   }
 
-  revalidatePath(`/${locale}/owner/employees/${employeeId}`);
   return { success: true };
 }

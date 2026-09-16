@@ -4,12 +4,12 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Copy, ExternalLink, FileSignature, Loader2, Send } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { BASE_PATH } from "@/lib/base-path";
 import type { JobContract } from "@/lib/job-contracts/types";
 import { Button } from "@/components/ui/button";
 import { JobContractStatusBadge } from "@/components/contracts/job-contract-status-badge";
-import { generateJobContract, sendJobContract } from "@/app/[locale]/owner/jobs/[id]/contract/actions";
+import { generateJobContract, sendJobContract } from "@/app/[locale]/owner/jobs/contract-actions";
 
 export function JobContractSection({
   jobId,
@@ -25,7 +25,6 @@ export function JobContractSection({
   locale: Locale;
 }) {
   const t = useTranslations("contracts.section");
-  const router = useRouter();
   const [pending, setPending] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
 
@@ -35,22 +34,22 @@ export function JobContractSection({
 
   const publicUrl =
     contract && typeof window !== "undefined"
-      ? `${window.location.origin}/${locale}/contracts/${contract.access_token}`
+      ? `${window.location.origin}${BASE_PATH}/${locale}/contracts?token=${contract.access_token}`
       : "";
 
   async function handleGenerate() {
     setPending(true);
     await generateJobContract(locale, jobId, templateId!);
     setPending(false);
-    router.refresh();
+    window.location.reload();
   }
 
   async function handleSend() {
     if (!contract) return;
     setPending(true);
-    await sendJobContract(locale, jobId, contract.id);
+    await sendJobContract(contract.id);
     setPending(false);
-    router.refresh();
+    window.location.reload();
   }
 
   function handleCopy() {
@@ -97,7 +96,7 @@ export function JobContractSection({
           </Button>
         ) : null}
         <Button type="button" size="sm" variant="outline" asChild>
-          <a href={`/${locale}/contracts/${contract.access_token}`} target="_blank" rel="noreferrer">
+          <a href={`${BASE_PATH}/${locale}/contracts?token=${contract.access_token}`} target="_blank" rel="noreferrer">
             <ExternalLink /> {t("view")}
           </a>
         </Button>

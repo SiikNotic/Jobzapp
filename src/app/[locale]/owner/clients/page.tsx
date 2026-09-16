@@ -1,36 +1,37 @@
-import { Building2, Plus, User, Users } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { Link, redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import * as React from "react";
+import { Building2, Plus, User, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth/auth-provider";
 import { listClients } from "@/lib/clients/queries";
-import type { ClientType } from "@/lib/clients/types";
+import type { ClientSummary, ClientType } from "@/lib/clients/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ClientsSearchBar } from "@/components/owner/clients-search-bar";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
 
-export default async function ClientsPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ q?: string; type?: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { q = "", type = "all" } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "owner.clients.list" });
+function ClientsPageInner() {
+  const t = useTranslations("owner.clients.list");
+  const { profile } = useAuth();
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q") ?? "";
+  const type = searchParams.get("type") ?? "all";
+  const validType: ClientType | "all" = type === "individual" || type === "company" ? type : "all";
 
-  const { profile } = await getCurrentProfile();
-  if (!profile?.company_id) {
-    redirect({ href: "/login", locale });
-    return null;
+  const [clients, setClients] = React.useState<ClientSummary[] | null>(null);
+
+  React.useEffect(() => {
+    if (!profile?.company_id) return;
+    listClients(profile.company_id, { q, type: validType }).then(setClients);
+  }, [profile?.company_id, q, validType]);
+
+  if (!clients) {
+    return <PageLoadingSkeleton />;
   }
-
-  const validType: ClientType | "all" =
-    type === "individual" || type === "company" ? type : "all";
-
-  const clients = await listClients(profile.company_id, { q, type: validType });
 
   return (
     <div className="flex flex-col gap-6">
@@ -61,7 +62,7 @@ export default async function ClientsPage({
           {clients.map((client) => (
             <Link
               key={client.id}
-              href={`/owner/clients/${client.id}`}
+              href={`/owner/clients/view?id=${client.id}`}
               className="flex flex-col gap-2 rounded-lg border bg-card p-4 transition-colors hover:bg-accent sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-center gap-3">
@@ -82,5 +83,13 @@ export default async function ClientsPage({
         </div>
       )}
     </div>
+  );
+}
+
+export default function ClientsPage() {
+  return (
+    <React.Suspense fallback={<PageLoadingSkeleton />}>
+      <ClientsPageInner />
+    </React.Suspense>
   );
 }

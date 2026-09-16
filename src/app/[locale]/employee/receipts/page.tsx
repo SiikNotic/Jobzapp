@@ -1,11 +1,15 @@
-import { redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
+"use client";
 
-export default async function ReceiptsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  redirect({ href: "/employee/hours", locale });
+import * as React from "react";
+
+import { useRouter } from "@/i18n/navigation";
+
+export default function ReceiptsPage() {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    router.replace("/employee/hours");
+  }, [router]);
+
+  return null;
 }

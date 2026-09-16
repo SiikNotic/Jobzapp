@@ -4,30 +4,23 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Loader2, Trash2 } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { TimeEntryWithJob } from "@/lib/hours-pay/types";
 import { deleteTimeEntry } from "@/lib/hours-pay/actions";
 
 export function TimeEntryRow({
   entry,
-  employeeId,
-  locale,
   dateLabel,
 }: {
   entry: TimeEntryWithJob;
-  employeeId: string;
-  locale: Locale;
   dateLabel: string;
 }) {
   const t = useTranslations("common");
-  const router = useRouter();
   const [pending, setPending] = React.useState(false);
 
   async function handleDelete() {
     setPending(true);
-    const result = await deleteTimeEntry(locale, employeeId, entry.id);
-    if (result.success) router.refresh();
+    const result = await deleteTimeEntry(entry.id);
+    if (result.success) window.location.reload();
     else setPending(false);
   }
 

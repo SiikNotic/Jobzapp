@@ -1,9 +1,4 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
-import type { Locale } from "@/i18n/routing";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { expenseRequestSchema } from "./schema";
 import type { ExpenseRequestStatus } from "./types";
 
@@ -12,11 +7,10 @@ export type ExpenseRequestActionResult =
   | { success: false; error: string };
 
 export async function createExpenseRequest(
-  locale: Locale,
   jobId: string,
   formData: FormData
 ): Promise<ExpenseRequestActionResult> {
-  const supabase = await createSupabaseClient();
+  const supabase = createSupabaseClient();
 
   const {
     data: { user },
@@ -41,21 +35,15 @@ export async function createExpenseRequest(
 
   if (error) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/employee/jobs/${jobId}`);
-  revalidatePath(`/${locale}/owner/jobs/${jobId}`);
-  revalidatePath(`/${locale}/employee/expenses`);
-
   return { success: true };
 }
 
 export async function reviewExpenseRequest(
-  locale: Locale,
-  jobId: string,
   requestId: string,
   decision: Extract<ExpenseRequestStatus, "approved" | "rejected">,
   notes: string
 ): Promise<ExpenseRequestActionResult> {
-  const supabase = await createSupabaseClient();
+  const supabase = createSupabaseClient();
 
   const { error } = await supabase.rpc("review_expense_request", {
     p_request_id: requestId,
@@ -64,11 +52,6 @@ export async function reviewExpenseRequest(
   });
 
   if (error) return { success: false, error: "not_allowed" };
-
-  revalidatePath(`/${locale}/owner/jobs/${jobId}`);
-  revalidatePath(`/${locale}/employee/jobs/${jobId}`);
-  revalidatePath(`/${locale}/employee/expenses`);
-  revalidatePath(`/${locale}/owner/finances`);
 
   return { success: true };
 }

@@ -21,7 +21,7 @@ export function NewClientDuplicateCheck() {
       <CardContent>
         <ClientPicker
           placeholder={t("checkExistingPlaceholder")}
-          onSelect={(client) => router.push(`/owner/clients/${client.id}`)}
+          onSelect={(client) => router.push(`/owner/clients/view?id=${client.id}`)}
         />
       </CardContent>
     </Card>

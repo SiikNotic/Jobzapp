@@ -1,11 +1,9 @@
-"use server";
-
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 
 export type SignContractResult = { success: true } | { success: false; error: string };
 
 /**
- * Called from the public, unauthenticated `/contracts/[token]` page. The
+ * Called from the public, unauthenticated `/contracts` signing page. The
  * access_token itself is the credential — see sign_contract() in the DB,
  * which is deliberately grant(ed) to anon for exactly this reason.
  */
@@ -18,7 +16,7 @@ export async function signContractAction(
     return { success: false, error: "validation" };
   }
 
-  const supabase = await createSupabaseClient();
+  const supabase = createSupabaseClient();
   const { error } = await supabase.rpc("sign_contract", {
     p_token: token,
     p_signer_name: signerName.trim(),

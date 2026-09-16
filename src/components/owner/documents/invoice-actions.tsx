@@ -4,24 +4,17 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { CircleDollarSign, Loader2, Printer, Send } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { Invoice } from "@/lib/invoices/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { markInvoicePaid, sendInvoice } from "@/app/[locale]/owner/jobs/[id]/invoices/actions";
+import { markInvoicePaid, sendInvoice } from "@/app/[locale]/owner/jobs/invoices/actions";
 
 export function InvoiceActions({
-  jobId,
   invoice,
-  locale,
 }: {
-  jobId: string;
   invoice: Invoice;
-  locale: Locale;
 }) {
   const t = useTranslations("documents.actions");
-  const router = useRouter();
   const [pending, setPending] = React.useState<string | null>(null);
   const [paymentNotes, setPaymentNotes] = React.useState("");
 
@@ -29,7 +22,7 @@ export function InvoiceActions({
     setPending(key);
     const result = await action();
     setPending(null);
-    if (result.success) router.refresh();
+    if (result.success) window.location.reload();
   }
 
   return (
@@ -38,7 +31,7 @@ export function InvoiceActions({
         {invoice.status === "draft" ? (
           <Button
             size="sm"
-            onClick={() => run("send", () => sendInvoice(locale, jobId, invoice.id))}
+            onClick={() => run("send", () => sendInvoice(invoice.id))}
             disabled={pending !== null}
           >
             {pending === "send" ? <Loader2 className="animate-spin" /> : <Send />}
@@ -57,7 +50,7 @@ export function InvoiceActions({
             <Button
               size="sm"
               onClick={() =>
-                run("paid", () => markInvoicePaid(locale, jobId, invoice.id, paymentNotes))
+                run("paid", () => markInvoicePaid(invoice.id, paymentNotes))
               }
               disabled={pending !== null}
             >

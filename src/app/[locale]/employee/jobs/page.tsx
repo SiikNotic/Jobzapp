@@ -1,30 +1,37 @@
-import { Briefcase } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import type { Locale } from "@/i18n/routing";
+import * as React from "react";
+import { Briefcase } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
 import { listJobsForEmployee } from "@/lib/jobs/queries";
-import type { JobStatus } from "@/lib/jobs/types";
+import type { JobListItem, JobStatus } from "@/lib/jobs/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { JobListRow } from "@/components/jobs/job-list-row";
+import { PageLoadingSkeleton } from "@/components/page-loading-skeleton";
+import { useAuth } from "@/lib/auth/auth-provider";
 
 const VALID_STATUSES: JobStatus[] = ["scheduled", "in_progress", "completed", "cancelled"];
 
-export default async function EmployeeJobsPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ status?: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { status = "all" } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "jobs.list" });
-
+function EmployeeJobsPageInner() {
+  const t = useTranslations("jobs.list");
+  const { user } = useAuth();
+  const status = useSearchParams().get("status") ?? "all";
   const validStatus: JobStatus | "all" = VALID_STATUSES.includes(status as JobStatus)
     ? (status as JobStatus)
     : "all";
 
-  const jobs = await listJobsForEmployee({ status: validStatus });
+  const [jobs, setJobs] = React.useState<JobListItem[] | null>(null);
+
+  React.useEffect(() => {
+    if (!user) return;
+    listJobsForEmployee({ status: validStatus }).then(setJobs);
+  }, [user, validStatus]);
+
+  if (!jobs) {
+    return <PageLoadingSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -44,10 +51,18 @@ export default async function EmployeeJobsPage({
       ) : (
         <div className="flex flex-col gap-2">
           {jobs.map((job) => (
-            <JobListRow key={job.id} job={job} hrefBase="/employee/jobs" />
+            <JobListRow key={job.id} job={job} hrefBase="/employee/jobs/view" />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+export default function EmployeeJobsPage() {
+  return (
+    <React.Suspense fallback={<PageLoadingSkeleton />}>
+      <EmployeeJobsPageInner />
+    </React.Suspense>
   );
 }

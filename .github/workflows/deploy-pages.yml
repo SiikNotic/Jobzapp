@@ -1,12 +1,9 @@
-name: Deploy landing page to GitHub Pages
+name: Deploy Jobzapp to GitHub Pages
 
 on:
   push:
     branches:
       - claude/business-management-platform-setup-a4pov3
-    paths:
-      - "landing/**"
-      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -27,12 +24,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build static export
+        run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: landing
+          path: out
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

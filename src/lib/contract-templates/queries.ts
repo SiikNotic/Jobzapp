@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { CONTRACT_TEMPLATE_SELECT_COLUMNS, type ContractTemplate } from "./types";
 
 export async function listContractTemplatesFull(companyId: string): Promise<ContractTemplate[]> {

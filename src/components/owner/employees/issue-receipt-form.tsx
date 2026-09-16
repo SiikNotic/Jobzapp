@@ -4,7 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Loader2, Receipt } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { issueReceipt, previewUnbilledHours } from "@/lib/hours-pay/actions";
 import { getWeekEnd, getWeekStart, todayWeekStart } from "@/lib/hours-pay/weeks";
@@ -28,7 +27,6 @@ export function IssueReceiptForm({
   locale: Locale;
 }) {
   const t = useTranslations("owner.employees.detail");
-  const router = useRouter();
   const [dateValue, setDateValue] = React.useState(todayWeekStart());
   const [unbilledHours, setUnbilledHours] = React.useState(initialUnbilledHours);
   const [pending, setPending] = React.useState(false);
@@ -49,10 +47,10 @@ export function IssueReceiptForm({
     e.preventDefault();
     setPending(true);
     setError(null);
-    const result = await issueReceipt(locale, employeeId, weekStart);
+    const result = await issueReceipt(employeeId, weekStart);
     setPending(false);
     if (result.success) {
-      router.refresh();
+      window.location.reload();
     } else {
       setError(ERROR_KEYS[result.error] ?? "error");
     }

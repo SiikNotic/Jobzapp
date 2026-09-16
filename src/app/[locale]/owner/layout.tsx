@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LayoutDashboard,
   Wallet,
@@ -7,33 +9,16 @@ import {
   FileText,
   Settings,
 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
-import { redirect } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { getCurrentProfile } from "@/lib/auth/get-profile";
+import { useRouter } from "@/i18n/navigation";
 import { AppShell, type NavItem } from "@/components/app-shell";
+import { ProtectedRoute } from "@/components/auth/protected-route";
 import { signOut } from "../(auth)/actions";
 
-export default async function OwnerLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = (await params) as { locale: Locale };
-  const { user, profile } = await getCurrentProfile();
-
-  if (!user || !profile) {
-    redirect({ href: "/login", locale });
-  }
-
-  if (profile!.role !== "owner") {
-    redirect({ href: "/employee/jobs", locale });
-  }
-
-  const t = await getTranslations({ locale, namespace: "owner.nav" });
+export default function OwnerLayout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("owner.nav");
+  const router = useRouter();
 
   const navItems: NavItem[] = [
     { href: "/owner/dashboard", label: t("dashboard"), icon: <LayoutDashboard className="size-4" /> },
@@ -46,14 +31,20 @@ export default async function OwnerLayout({
   ];
 
   return (
-    <AppShell
-      navItems={navItems}
-      fullName={profile!.full_name}
-      email={user!.email}
-      locale={locale}
-      onSignOut={signOut}
-    >
-      {children}
-    </AppShell>
+    <ProtectedRoute role="owner">
+      {({ user, profile }) => (
+        <AppShell
+          navItems={navItems}
+          fullName={profile.full_name}
+          email={user.email ?? null}
+          onSignOut={async () => {
+            await signOut();
+            router.replace("/login");
+          }}
+        >
+          {children}
+        </AppShell>
+      )}
+    </ProtectedRoute>
   );
 }

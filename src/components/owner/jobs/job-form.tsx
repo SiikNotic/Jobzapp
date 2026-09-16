@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Building2, Loader2, User, X } from "lucide-react";
 
 import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { ClientSummary } from "@/lib/clients/types";
 import type { Employee, Job, JobMaterial, JobPriority } from "@/lib/jobs/types";
 import { Button } from "@/components/ui/button";
@@ -68,13 +67,11 @@ export function JobForm({
   initialClient,
   employees,
   contractTemplates,
-  locale,
 }: {
   job?: Job;
   initialClient?: ClientSummary;
   employees: Employee[];
   contractTemplates: { id: string; name: string }[];
-  locale: Locale;
 }) {
   const t = useTranslations("jobs.form");
   const tCommon = useTranslations("common");
@@ -121,14 +118,14 @@ export function JobForm({
     if (selectedClient) formData.set("client_id", selectedClient.id);
 
     const result = isEditing
-      ? await updateJob(locale, job!.id, formData)
-      : await createJob(locale, formData);
+      ? await updateJob(job!.id, formData)
+      : await createJob(formData);
 
     if (result.success) {
       if (isEditing) {
         setFeedback({ type: "success", message: t("saved") });
       } else {
-        router.push(`/owner/jobs/${result.job.id}`);
+        router.push(`/owner/jobs/view?id=${result.job.id}`);
         return;
       }
     } else {

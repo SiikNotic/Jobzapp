@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { listExpensesForCompanyFinance, listIncomeForCompany } from "@/lib/finances/queries";
 import { currentMonthPeriod } from "@/lib/finances/period";
 import type { DashboardData, MonthlyTrendPoint, RecentJobItem } from "./types";

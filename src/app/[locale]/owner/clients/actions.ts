@@ -1,7 +1,3 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-
 import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import { clientSchema } from "@/lib/clients/schema";
 import {
@@ -10,7 +6,6 @@ import {
   type Client,
   type ClientSummary,
 } from "@/lib/clients/types";
-import type { Locale } from "@/i18n/routing";
 
 export type ClientActionResult =
   | { success: true; client: Client }
@@ -33,10 +28,7 @@ function parseClientForm(formData: FormData) {
   });
 }
 
-export async function createClientRecord(
-  locale: Locale,
-  formData: FormData
-): Promise<ClientActionResult> {
+export async function createClientRecord(formData: FormData): Promise<ClientActionResult> {
   const { supabase, companyId, userId } = await requireOwnerCompany();
   if (!companyId) return { success: false, error: "forbidden" };
 
@@ -51,13 +43,10 @@ export async function createClientRecord(
 
   if (error || !data) return { success: false, error: "save_failed" };
 
-  revalidatePath(`/${locale}/owner/clients`);
-
   return { success: true, client: data as Client };
 }
 
 export async function updateClientRecord(
-  locale: Locale,
   clientId: string,
   formData: FormData
 ): Promise<ClientActionResult> {
@@ -76,9 +65,6 @@ export async function updateClientRecord(
     .single();
 
   if (error || !data) return { success: false, error: "save_failed" };
-
-  revalidatePath(`/${locale}/owner/clients`);
-  revalidatePath(`/${locale}/owner/clients/${clientId}`);
 
   return { success: true, client: data as Client };
 }

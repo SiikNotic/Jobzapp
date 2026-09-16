@@ -4,7 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Building2, Hash, ImageOff, Loader2, Upload, X } from "lucide-react";
 
-import type { Locale } from "@/i18n/routing";
 import type { Company, CompanyCountry, CompanyThemePreference } from "@/lib/company/types";
 import { formatJobCode, isValidJobCodePattern } from "@/lib/company/job-code";
 import { cn } from "@/lib/utils";
@@ -70,10 +69,8 @@ function toFormState(company: Company): FormState {
 
 export function CompanySettingsForm({
   company: initialCompany,
-  locale,
 }: {
   company: Company;
-  locale: Locale;
 }) {
   const t = useTranslations("owner.settings");
   const tCommon = useTranslations("common");
@@ -124,7 +121,7 @@ export function CompanySettingsForm({
     setPending(true);
     setFeedback(null);
 
-    const result = await updateCompanySettings(locale, formData);
+    const result = await updateCompanySettings(formData);
 
     if (result.success) {
       setCompany(result.company);

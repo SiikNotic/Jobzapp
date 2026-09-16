@@ -4,8 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { CheckCircle2, Loader2, PlayCircle } from "lucide-react";
 
-import { useRouter } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import type { JobStatus } from "@/lib/jobs/types";
 import { Button } from "@/components/ui/button";
 import { changeJobStatus } from "@/lib/jobs/status-actions";
@@ -13,24 +11,21 @@ import { changeJobStatus } from "@/lib/jobs/status-actions";
 export function EmployeeJobStatusActions({
   jobId,
   status,
-  locale,
 }: {
   jobId: string;
   status: JobStatus;
-  locale: Locale;
 }) {
   const t = useTranslations("jobs.employeeActions");
-  const router = useRouter();
   const [pending, setPending] = React.useState<JobStatus | null>(null);
   const [error, setError] = React.useState(false);
 
   async function handleChange(next: JobStatus) {
     setPending(next);
     setError(false);
-    const result = await changeJobStatus(locale, jobId, next);
+    const result = await changeJobStatus(jobId, next);
     setPending(null);
     if (result.success) {
-      router.refresh();
+      window.location.reload();
     } else {
       setError(true);
     }

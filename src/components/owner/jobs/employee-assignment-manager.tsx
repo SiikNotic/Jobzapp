@@ -4,7 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Loader2, UserPlus, UserMinus } from "lucide-react";
 
-import type { Locale } from "@/i18n/routing";
 import type { Employee } from "@/lib/jobs/types";
 import { assignEmployee, unassignEmployee } from "@/app/[locale]/owner/jobs/actions";
 
@@ -12,12 +11,10 @@ export function EmployeeAssignmentManager({
   jobId,
   employees,
   assignedIds,
-  locale,
 }: {
   jobId: string;
   employees: Employee[];
   assignedIds: string[];
-  locale: Locale;
 }) {
   const t = useTranslations("jobs.detail");
   const [assigned, setAssigned] = React.useState<Set<string>>(new Set(assignedIds));
@@ -28,8 +25,8 @@ export function EmployeeAssignmentManager({
     const isAssigned = assigned.has(employeeId);
 
     const result = isAssigned
-      ? await unassignEmployee(locale, jobId, employeeId)
-      : await assignEmployee(locale, jobId, employeeId);
+      ? await unassignEmployee(jobId, employeeId)
+      : await assignEmployee(jobId, employeeId);
 
     if (result.success) {
       setAssigned((prev) => {

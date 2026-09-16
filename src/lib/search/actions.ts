@@ -1,5 +1,3 @@
-"use server";
-
 import { requireOwnerCompany } from "@/lib/auth/require-owner";
 import type { GlobalSearchResults, SearchResultItem } from "./types";
 
@@ -64,7 +62,7 @@ export async function globalSearch(term: string): Promise<GlobalSearchResults> {
     id: c.id,
     primary: c.display_name,
     secondary: c.phone ?? c.email ?? null,
-    href: `/owner/clients/${c.id}`,
+    href: `/owner/clients/view?id=${c.id}`,
   }));
 
   const jobs: SearchResultItem[] = ((jobsRes.data as unknown as Record<string, unknown>[]) ?? []).map((j) => {
@@ -73,7 +71,7 @@ export async function globalSearch(term: string): Promise<GlobalSearchResults> {
       id: j.id as string,
       primary: j.job_code as string,
       secondary: client?.display_name ?? null,
-      href: `/owner/jobs/${j.id}`,
+      href: `/owner/jobs/view?id=${j.id}`,
     };
   });
 
@@ -81,21 +79,21 @@ export async function globalSearch(term: string): Promise<GlobalSearchResults> {
     id: e.id,
     primary: e.full_name ?? "",
     secondary: null,
-    href: `/owner/employees/${e.id}`,
+    href: `/owner/employees/view?id=${e.id}`,
   }));
 
   const quotes: SearchResultItem[] = (quotesRes.data ?? []).map((q2) => ({
     id: q2.id,
     primary: q2.quote_number,
     secondary: q2.client_name,
-    href: `/owner/jobs/${q2.job_id}/quotes/${q2.id}`,
+    href: `/owner/jobs/quotes/view?jobId=${q2.job_id}&quoteId=${q2.id}`,
   }));
 
   const invoices: SearchResultItem[] = (invoicesRes.data ?? []).map((i) => ({
     id: i.id,
     primary: i.invoice_number,
     secondary: i.client_name,
-    href: `/owner/jobs/${i.job_id}/invoices/${i.id}`,
+    href: `/owner/jobs/invoices/view?jobId=${i.job_id}&invoiceId=${i.id}`,
   }));
 
   return { jobs, clients, employees, quotes, invoices };
