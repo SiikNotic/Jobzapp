@@ -311,6 +311,15 @@
     "comingSoon": "Coming soon",
     "comingSoonDescription": "This module is under construction. Check back soon."
   },
+  "period": {
+    "label": "Period",
+    "thisMonth": "This month",
+    "thisYear": "This year",
+    "allTime": "All time",
+    "from": "From",
+    "to": "To",
+    "apply": "Apply"
+  },
   "theme": {
     "toggle": "Toggle theme",
     "light": "Light",
@@ -531,15 +540,69 @@
       }
     },
     "taxes": {
+      "title": "Taxes / Payroll",
+      "subtitle": "Information organized for your accountant or tax professional.",
+      "disclaimerTitle": "This does not replace professional advice",
+      "disclaimerBody": "These reports organize your financial information so you can review it with your accountant or tax professional. Jobzapp does not file taxes or provide tax advice. Adapt these reports to the specific requirements that apply to your company.",
       "jurisdictionUS": "United States",
       "jurisdictionPR": "Puerto Rico",
-      "preview": "Based on your company's jurisdiction ({jurisdiction}), these forms will show up here:"
+      "preview": "Based on your company's jurisdiction ({jurisdiction}), here are reference forms your tax professional might need:",
+      "periodLabel": "Report for the selected period",
+      "income": {
+        "title": "Income",
+        "total": "Total income",
+        "empty": "No paid invoices in this period."
+      },
+      "expenses": {
+        "title": "Expenses",
+        "total": "Total expenses",
+        "empty": "No expenses recorded in this period."
+      },
+      "payroll": {
+        "title": "Payroll",
+        "total": "Total payroll",
+        "empty": "No pay receipts issued in this period.",
+        "byEmployeeTitle": "Total by employee"
+      },
+      "withholding": {
+        "title": "Withholding",
+        "note": "Jobzapp does not calculate or withhold taxes on payroll or payments. Confirm this figure with your accountant or payroll system."
+      },
+      "employees": {
+        "title": "Employee information",
+        "empty": "You don't have any employees yet.",
+        "name": "Name",
+        "hourlyRate": "Hourly rate",
+        "hourlyRateNotSet": "Not set",
+        "totalPaid": "Total paid in period",
+        "note": "This is the information available in the system. Additional data needed for payroll filings (Social Security number, EIN, address, W-4/W-9 forms, or others) must be obtained directly."
+      },
+      "export": {
+        "title": "Export report",
+        "description": "Download this information to share with your accountant.",
+        "pdf": "Download PDF",
+        "csv": "Download CSV",
+        "excel": "Download Excel",
+        "generating": "Generating..."
+      }
     },
     "finances": {
-      "revenuePreview": "Paid invoices. Your financial reports will connect here.",
-      "noRevenue": "No paid invoices yet.",
-      "expensesPreview": "Expenses approved from job requests. Your financial reports will connect here.",
-      "noExpenses": "No expenses recorded yet."
+      "title": "Finances",
+      "subtitle": "Income, expenses, payroll, and financial information for your jobs.",
+      "totalIncome": "Total income",
+      "totalExpenses": "Total expenses",
+      "totalPayroll": "Total payroll",
+      "netTotal": "Net",
+      "income": "Income / Payments received",
+      "noIncome": "No paid invoices in this period yet.",
+      "invoices": "Invoices",
+      "noInvoices": "No invoices in this period yet.",
+      "expenses": "Expenses and materials",
+      "noExpenses": "No expenses recorded in this period yet.",
+      "payroll": "Payroll / employee payments",
+      "noPayroll": "No pay receipts issued in this period yet.",
+      "byJob": "Financial information by job",
+      "noJobData": "No financial information to show yet."
     }
   },
   "employee": {

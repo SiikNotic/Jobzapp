@@ -311,6 +311,15 @@
     "comingSoon": "Próximamente",
     "comingSoonDescription": "Este módulo está en construcción. Vuelve pronto."
   },
+  "period": {
+    "label": "Período",
+    "thisMonth": "Este mes",
+    "thisYear": "Este año",
+    "allTime": "Todo",
+    "from": "Desde",
+    "to": "Hasta",
+    "apply": "Aplicar"
+  },
   "theme": {
     "toggle": "Cambiar tema",
     "light": "Claro",
@@ -531,15 +540,69 @@
       }
     },
     "taxes": {
+      "title": "Taxes / Planillas",
+      "subtitle": "Información organizada para tu contador o profesional contributivo.",
+      "disclaimerTitle": "Esto no sustituye asesoría profesional",
+      "disclaimerBody": "Estos reportes organizan tu información financiera para que la revises con tu contador o profesional contributivo. Jobzapp no presenta impuestos ni ofrece asesoría contributiva. Adapta los reportes a los requisitos específicos que apliquen a tu compañía.",
       "jurisdictionUS": "Estados Unidos",
       "jurisdictionPR": "Puerto Rico",
-      "preview": "Según la jurisdicción de tu compañía ({jurisdiction}), aquí aparecerán estos formularios:"
+      "preview": "Según la jurisdicción de tu compañía ({jurisdiction}), estos son los formularios de referencia que tu profesional contributivo podría necesitar:",
+      "periodLabel": "Reporte para el período seleccionado",
+      "income": {
+        "title": "Ingresos",
+        "total": "Total de ingresos",
+        "empty": "No hay invoices pagados en este período."
+      },
+      "expenses": {
+        "title": "Gastos",
+        "total": "Total de gastos",
+        "empty": "No hay gastos registrados en este período."
+      },
+      "payroll": {
+        "title": "Nómina",
+        "total": "Total de nómina",
+        "empty": "No se han emitido recibos de pago en este período.",
+        "byEmployeeTitle": "Total por empleado"
+      },
+      "withholding": {
+        "title": "Retenciones",
+        "note": "Jobzapp no calcula ni retiene impuestos sobre nómina o pagos. Confirma este dato con tu contador o tu sistema de planillas."
+      },
+      "employees": {
+        "title": "Información de empleados",
+        "empty": "Aún no tienes empleados registrados.",
+        "name": "Nombre",
+        "hourlyRate": "Tarifa por hora",
+        "hourlyRateNotSet": "Sin configurar",
+        "totalPaid": "Total pagado en el período",
+        "note": "Esta es la información disponible en el sistema. Datos adicionales para la preparación de planillas (número de seguro social, EIN, dirección, formularios W-4/W-9 u otros) deben obtenerse directamente."
+      },
+      "export": {
+        "title": "Exportar reporte",
+        "description": "Descarga esta información para compartirla con tu contador.",
+        "pdf": "Descargar PDF",
+        "csv": "Descargar CSV",
+        "excel": "Descargar Excel",
+        "generating": "Generando..."
+      }
     },
     "finances": {
-      "revenuePreview": "Invoices pagados. Aquí se conectarán tus reportes financieros.",
-      "noRevenue": "Aún no hay invoices pagados.",
-      "expensesPreview": "Gastos aprobados desde solicitudes de trabajos. Aquí se conectarán tus reportes financieros.",
-      "noExpenses": "Aún no hay gastos registrados."
+      "title": "Finanzas",
+      "subtitle": "Ingresos, gastos, nómina e información financiera de tus trabajos.",
+      "totalIncome": "Ingresos totales",
+      "totalExpenses": "Gastos totales",
+      "totalPayroll": "Nómina total",
+      "netTotal": "Neto",
+      "income": "Ingresos / Pagos recibidos",
+      "noIncome": "Aún no hay invoices pagados en este período.",
+      "invoices": "Invoices",
+      "noInvoices": "Aún no hay invoices en este período.",
+      "expenses": "Gastos y materiales",
+      "noExpenses": "Aún no hay gastos registrados en este período.",
+      "payroll": "Nómina / pagos de empleados",
+      "noPayroll": "Aún no se han emitido recibos de pago en este período.",
+      "byJob": "Información financiera por trabajo",
+      "noJobData": "Aún no hay información financiera para mostrar."
     }
   },
   "employee": {
