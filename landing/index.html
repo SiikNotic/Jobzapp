@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jobzapp</title>
+<meta name="description" content="Gestión para compañías de servicios: trabajos, clientes, empleados, finanzas y planillas en una sola plataforma bilingüe." />
+<link rel="icon" href="favicon.ico" />
+<style>
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --border: 214 32% 91%;
+  }
+  [data-theme="dark"] {
+    --background: 224 24% 5%;
+    --foreground: 210 40% 98%;
+    --card: 226 22% 9%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 222 20% 15%;
+    --muted-foreground: 222 14% 63%;
+    --border: 227 20% 17%;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background-color .2s, color .2s;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 600;
+  }
+  .brand svg { color: hsl(var(--primary)); }
+  .controls { display: flex; align-items: center; gap: .5rem; }
+  button.icon-btn, button.lang-btn {
+    background: transparent;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    border-radius: .5rem;
+    padding: .4rem .6rem;
+    font-size: .85rem;
+    cursor: pointer;
+  }
+  button.icon-btn:hover, button.lang-btn:hover { background: hsl(var(--secondary)); }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 6rem 1.5rem;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    border-radius: 999px;
+    padding: .35rem .9rem;
+    font-size: .8rem;
+    font-weight: 500;
+  }
+  h1 {
+    max-width: 42rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  p.subtitle {
+    max-width: 36rem;
+    color: hsl(var(--muted-foreground));
+    margin: 0;
+    line-height: 1.5;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    padding-top: .5rem;
+  }
+  a.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    padding: .75rem 1.5rem;
+    font-size: .95rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  a.btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  a.btn-outline { border: 1px solid hsl(var(--border)); color: hsl(var(--foreground)); }
+  footer {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: .8rem;
+    color: hsl(var(--muted-foreground));
+  }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+      Jobzapp
+    </div>
+    <div class="controls">
+      <button class="lang-btn" id="langToggle" type="button">EN</button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <span class="badge" id="badge"></span>
+    <h1 id="title"></h1>
+    <p class="subtitle" id="subtitle"></p>
+    <div class="cta-row">
+      <a class="btn btn-primary" id="ctaPrimary" href="#"></a>
+      <a class="btn btn-outline" id="ctaSecondary" href="#"></a>
+    </div>
+  </main>
+
+  <footer>© <span id="year"></span> Jobzapp</footer>
+
+  <script>
+    var APP_URL = "https://jobzapp-seven.vercel.app";
+
+    var COPY = {
+      es: {
+        badge: "Gestión para compañías de servicios",
+        title: "Dirige tu compañía de servicios desde un solo lugar",
+        subtitle: "Trabajos, clientes, empleados, finanzas y planillas — todo en una plataforma bilingüe pensada para equipos de campo y oficina.",
+        cta: "Iniciar sesión",
+        ctaSecondary: "Crear cuenta",
+        langLabel: "EN"
+      },
+      en: {
+        badge: "Management for service companies",
+        title: "Run your service company from one place",
+        subtitle: "Jobs, clients, employees, finances and payroll — all in one bilingual platform built for field and office teams.",
+        cta: "Sign in",
+        ctaSecondary: "Create account",
+        langLabel: "ES"
+      }
+    };
+
+    function getStored(key, fallback) {
+      try { return localStorage.getItem(key) || fallback; } catch (e) { return fallback; }
+    }
+    function setStored(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) {}
+    }
+
+    function applyLocale(locale) {
+      var c = COPY[locale];
+      document.documentElement.lang = locale;
+      document.getElementById("badge").textContent = c.badge;
+      document.getElementById("title").textContent = c.title;
+      document.getElementById("subtitle").textContent = c.subtitle;
+      var primary = document.getElementById("ctaPrimary");
+      var secondary = document.getElementById("ctaSecondary");
+      primary.textContent = c.cta;
+      primary.href = APP_URL + "/" + locale + "/login";
+      secondary.textContent = c.ctaSecondary;
+      secondary.href = APP_URL + "/" + locale + "/signup";
+      document.getElementById("langToggle").textContent = c.langLabel;
+      setStored("jobzapp-landing-locale", locale);
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.getElementById("themeToggle").textContent = theme === "dark" ? "🌙" : "☀️";
+      setStored("jobzapp-landing-theme", theme);
+    }
+
+    var initialLocale = getStored("jobzapp-landing-locale", (navigator.language || "es").slice(0, 2) === "en" ? "en" : "es");
+    var initialTheme = getStored("jobzapp-landing-theme", window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+
+    applyLocale(initialLocale);
+    applyTheme(initialTheme);
+
+    document.getElementById("langToggle").addEventListener("click", function () {
+      applyLocale(document.documentElement.lang === "es" ? "en" : "es");
+    });
+    document.getElementById("themeToggle").addEventListener("click", function () {
+      applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
