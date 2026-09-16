@@ -37,10 +37,10 @@ export default async function OwnerLayout({
 
   const navItems: NavItem[] = [
     { href: "/owner/dashboard", label: t("dashboard"), icon: <LayoutDashboard className="size-4" /> },
-    { href: "/owner/finances", label: t("finances"), icon: <Wallet className="size-4" /> },
     { href: "/owner/jobs", label: t("jobs"), icon: <Briefcase className="size-4" /> },
     { href: "/owner/clients", label: t("clients"), icon: <Users className="size-4" /> },
     { href: "/owner/employees", label: t("employees"), icon: <UserSquare2 className="size-4" /> },
+    { href: "/owner/finances", label: t("finances"), icon: <Wallet className="size-4" /> },
     { href: "/owner/taxes", label: t("taxes"), icon: <FileText className="size-4" /> },
     { href: "/owner/settings", label: t("settings"), icon: <Settings className="size-4" /> },
   ];

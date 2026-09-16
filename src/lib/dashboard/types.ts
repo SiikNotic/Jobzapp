@@ -21,3 +21,12 @@ export type MonthlyTrendPoint = {
   income: number;
   expenses: number;
 };
+
+export type RecentJobItem = {
+  id: string;
+  job_code: string;
+  client_name: string | null;
+  employee_name: string | null;
+  priority: "low" | "medium" | "high" | "urgent";
+  status: "scheduled" | "in_progress" | "completed" | "cancelled";
+};

@@ -16,7 +16,7 @@ import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { Link, redirect } from "@/i18n/navigation";
 import { getCurrentProfile } from "@/lib/auth/get-profile";
-import { getDashboardData, getMonthlyTrend } from "@/lib/dashboard/queries";
+import { getDashboardData, getMonthlyTrend, listRecentJobs } from "@/lib/dashboard/queries";
 import { listPendingExpenseRequestsForCompany } from "@/lib/expense-requests/queries";
 import { listRecentAuditEvents } from "@/lib/audit/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,9 +24,18 @@ import { GlobalSearch } from "@/components/owner/dashboard/global-search";
 import { StatTile } from "@/components/owner/dashboard/stat-tile";
 import { AuditEventRow } from "@/components/owner/dashboard/audit-event-row";
 import { FinanceStatCard } from "@/components/owner/dashboard/finance-stat-card";
+import { RecentJobsTable } from "@/components/owner/dashboard/recent-jobs-table";
 import { DonutChart } from "@/components/charts/donut-chart";
 import { ChartLegend } from "@/components/charts/chart-legend";
 import { MonthlyTrendChart } from "@/components/charts/monthly-trend-chart";
+
+function monthOverMonthChange(points: { value: number }[]): number | undefined {
+  if (points.length < 2) return undefined;
+  const previous = points[points.length - 2].value;
+  const current = points[points.length - 1].value;
+  if (previous === 0) return undefined;
+  return ((current - previous) / Math.abs(previous)) * 100;
+}
 
 export default async function OwnerDashboardPage({
   params,
@@ -42,11 +51,12 @@ export default async function OwnerDashboardPage({
     return null;
   }
 
-  const [data, pendingRequests, recentActivity, monthlyTrend] = await Promise.all([
+  const [data, pendingRequests, recentActivity, monthlyTrend, recentJobs] = await Promise.all([
     getDashboardData(profile.company_id),
     listPendingExpenseRequestsForCompany(profile.company_id, 5),
     listRecentAuditEvents(profile.company_id, 8),
     getMonthlyTrend(profile.company_id, 6),
+    listRecentJobs(profile.company_id, 5),
   ]);
 
   const name = profile.full_name ?? user?.email ?? "";
@@ -104,6 +114,8 @@ export default async function OwnerDashboardPage({
             trend={incomeTrend}
             color="teal"
             valueTone="success"
+            changePercent={monthOverMonthChange(incomeTrend)}
+            href="/owner/finances"
           />
           <FinanceStatCard
             icon={<Receipt className="size-4" />}
@@ -112,6 +124,8 @@ export default async function OwnerDashboardPage({
             trend={expensesTrend}
             color="magenta"
             valueTone="destructive"
+            changePercent={monthOverMonthChange(expensesTrend)}
+            href="/owner/finances"
           />
           <FinanceStatCard
             icon={<Wallet className="size-4" />}
@@ -120,6 +134,8 @@ export default async function OwnerDashboardPage({
             trend={netTrend}
             color={netThisMonth >= 0 ? "green" : "orange"}
             valueTone={netThisMonth >= 0 ? "success" : "destructive"}
+            changePercent={monthOverMonthChange(netTrend)}
+            href="/owner/finances"
           />
         </div>
       </div>
@@ -156,20 +172,16 @@ export default async function OwnerDashboardPage({
 
         <Card className="lg:col-span-3">
           <CardHeader className="flex flex-row items-center justify-between gap-2">
-            <CardTitle className="text-base">{t("recentActivity")}</CardTitle>
-            <Link href="/owner/dashboard/activity" className="text-sm text-primary hover:underline">
+            <CardTitle className="text-base">{t("recentJobs")}</CardTitle>
+            <Link href="/owner/jobs" className="text-sm text-primary hover:underline">
               {t("viewAll")}
             </Link>
           </CardHeader>
           <CardContent>
-            {recentActivity.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t("activityEmpty")}</p>
+            {recentJobs.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{t("recentJobsEmpty")}</p>
             ) : (
-              <div className="flex flex-col">
-                {recentActivity.map((event) => (
-                  <AuditEventRow key={event.id} event={event} />
-                ))}
-              </div>
+              <RecentJobsTable jobs={recentJobs} employeeLabel={t("employee")} unassignedLabel={t("unassigned")} />
             )}
           </CardContent>
         </Card>
@@ -230,6 +242,26 @@ export default async function OwnerDashboardPage({
           </CardContent>
         </Card>
       ) : null}
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between gap-2">
+          <CardTitle className="text-base">{t("recentActivity")}</CardTitle>
+          <Link href="/owner/dashboard/activity" className="text-sm text-primary hover:underline">
+            {t("viewAll")}
+          </Link>
+        </CardHeader>
+        <CardContent>
+          {recentActivity.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("activityEmpty")}</p>
+          ) : (
+            <div className="flex flex-col">
+              {recentActivity.map((event) => (
+                <AuditEventRow key={event.id} event={event} />
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

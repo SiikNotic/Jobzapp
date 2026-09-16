@@ -1,7 +1,7 @@
 import { createClient as createSupabaseClient } from "@/lib/supabase/server";
 import { listExpensesForCompanyFinance, listIncomeForCompany } from "@/lib/finances/queries";
 import { currentMonthPeriod } from "@/lib/finances/period";
-import type { DashboardData, MonthlyTrendPoint } from "./types";
+import type { DashboardData, MonthlyTrendPoint, RecentJobItem } from "./types";
 
 /**
  * One aggregation pass for the owner dashboard. Every count here maps to
@@ -90,4 +90,31 @@ export async function getMonthlyTrend(companyId: string, months = 6): Promise<Mo
   }
 
   return Array.from(buckets.values());
+}
+
+/** Most recently created jobs, with client and first assigned employee, for
+ * the dashboard's "recent jobs" panel. */
+export async function listRecentJobs(companyId: string, limit = 5): Promise<RecentJobItem[]> {
+  const supabase = await createSupabaseClient();
+  const { data } = await supabase
+    .from("jobs")
+    .select(
+      "id, job_code, priority, status, client:clients(display_name), job_assignments(employee:profiles!job_assignments_employee_id_fkey(full_name))"
+    )
+    .eq("company_id", companyId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return ((data as unknown as Record<string, unknown>[]) ?? []).map((row) => {
+    const client = row.client as { display_name: string } | null;
+    const assignments = row.job_assignments as { employee: { full_name: string | null } | null }[] | null;
+    return {
+      id: row.id as string,
+      job_code: row.job_code as string,
+      client_name: client?.display_name ?? null,
+      employee_name: assignments?.[0]?.employee?.full_name ?? null,
+      priority: row.priority as RecentJobItem["priority"],
+      status: row.status as RecentJobItem["status"],
+    };
+  });
 }
