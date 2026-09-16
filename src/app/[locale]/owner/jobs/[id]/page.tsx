@@ -1,4 +1,4 @@
-import { Building2, Pencil, Receipt, User } from "lucide-react";
+import { Building2, FileText, Pencil, Plus, Receipt, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -7,6 +7,9 @@ import type { Locale } from "@/i18n/routing";
 import { getCurrentProfile } from "@/lib/auth/get-profile";
 import { getJobDetail, listEmployees } from "@/lib/jobs/queries";
 import { listExpenseRequestsForJob } from "@/lib/expense-requests/queries";
+import { listQuotesForJob } from "@/lib/quotes/queries";
+import { listInvoicesForJob } from "@/lib/invoices/queries";
+import { getJobContract } from "@/lib/job-contracts/queries";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JobPriorityBadge } from "@/components/jobs/job-priority-badge";
@@ -15,6 +18,9 @@ import { JobStatusHistory } from "@/components/jobs/job-status-history";
 import { JobStatusControl } from "@/components/owner/jobs/job-status-control";
 import { EmployeeAssignmentManager } from "@/components/owner/jobs/employee-assignment-manager";
 import { ExpenseRequestCard } from "@/components/expense-requests/expense-request-card";
+import { QuoteStatusBadge } from "@/components/documents/quote-status-badge";
+import { InvoiceStatusBadge } from "@/components/documents/invoice-status-badge";
+import { JobContractSection } from "@/components/owner/jobs/job-contract-section";
 
 export default async function OwnerJobDetailPage({
   params,
@@ -36,9 +42,12 @@ export default async function OwnerJobDetailPage({
     notFound();
   }
 
-  const [employees, expenseRequests] = await Promise.all([
+  const [employees, expenseRequests, quotes, invoices, jobContract] = await Promise.all([
     listEmployees(profile.company_id),
     listExpenseRequestsForJob(job.id),
+    listQuotesForJob(job.id),
+    listInvoicesForJob(job.id),
+    getJobContract(job.id),
   ]);
 
   const addressLines = [
@@ -135,14 +144,77 @@ export default async function OwnerJobDetailPage({
         </Card>
       ) : null}
 
-      {job.contract_template_name ? (
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <FileText className="size-4 text-muted-foreground" /> {t("quotes")}
+          </CardTitle>
+          <Button asChild size="sm" variant="outline">
+            <Link href={`/owner/jobs/${job.id}/quotes/new`}>
+              <Plus /> {t("newQuote")}
+            </Link>
+          </Button>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          {quotes.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("noQuotes")}</p>
+          ) : (
+            quotes.map((quote) => (
+              <Link
+                key={quote.id}
+                href={`/owner/jobs/${job.id}/quotes/${quote.id}`}
+                className="flex items-center justify-between gap-2 rounded-md border p-3 text-sm transition-colors hover:bg-accent"
+              >
+                <span className="font-mono">{quote.quote_number}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-muted-foreground">${quote.total.toFixed(2)}</span>
+                  <QuoteStatusBadge status={quote.status} />
+                </div>
+              </Link>
+            ))
+          )}
+        </CardContent>
+      </Card>
+
+      {invoices.length > 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">{t("contract")}</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileText className="size-4 text-muted-foreground" /> {t("invoices")}
+            </CardTitle>
           </CardHeader>
-          <CardContent className="text-sm">{job.contract_template_name}</CardContent>
+          <CardContent className="flex flex-col gap-2">
+            {invoices.map((invoice) => (
+              <Link
+                key={invoice.id}
+                href={`/owner/jobs/${job.id}/invoices/${invoice.id}`}
+                className="flex items-center justify-between gap-2 rounded-md border p-3 text-sm transition-colors hover:bg-accent"
+              >
+                <span className="font-mono">{invoice.invoice_number}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-muted-foreground">${invoice.total.toFixed(2)}</span>
+                  <InvoiceStatusBadge status={invoice.status} />
+                </div>
+              </Link>
+            ))}
+          </CardContent>
         </Card>
       ) : null}
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">{t("contract")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <JobContractSection
+            jobId={job.id}
+            templateId={job.contract_template_id}
+            templateName={job.contract_template_name}
+            contract={jobContract}
+            locale={locale}
+          />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

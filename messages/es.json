@@ -3,6 +3,132 @@
     "title": "Jobzapp",
     "description": "Plataforma de gestión para compañías de servicios."
   },
+  "documents": {
+    "client": "Cliente",
+    "description": "Descripción",
+    "itemDescription": "Descripción",
+    "quantity": "Cantidad",
+    "unitCost": "Costo unitario",
+    "amount": "Importe",
+    "total": "Total",
+    "terms": "Condiciones",
+    "kind": {
+      "quote": { "title": "Cotización" },
+      "invoice": { "title": "Invoice" }
+    },
+    "quoteStatus": {
+      "draft": "Borrador",
+      "sent": "Cotización enviada",
+      "accepted": "Aceptada",
+      "rejected": "Rechazada"
+    },
+    "invoiceStatus": {
+      "draft": "Borrador",
+      "sent": "Invoice enviado",
+      "paid": "Pagado"
+    },
+    "new": {
+      "title": "Nueva {kind}"
+    },
+    "edit": {
+      "title": "Editar cotización"
+    },
+    "detail": {
+      "sentOrDecided": "Documento del trabajo"
+    },
+    "form": {
+      "clientAddressTitle": "Dirección del cliente",
+      "descriptionTitle": "Descripción",
+      "lineItemsTitle": "Materiales y costos",
+      "termsTitle": "Condiciones",
+      "error": "No se pudo guardar. Intenta de nuevo."
+    },
+    "editor": {
+      "kindMaterial": "Material",
+      "kindLabor": "Mano de obra",
+      "kindOther": "Otro",
+      "descriptionPlaceholder": "Descripción del ítem",
+      "quantity": "Cantidad",
+      "unitCost": "Costo unitario",
+      "remove": "Quitar ítem",
+      "addItem": "Agregar ítem",
+      "total": "Total"
+    },
+    "actions": {
+      "edit": "Editar",
+      "sendQuote": "Enviar cotización",
+      "markAccepted": "Marcar como aceptada",
+      "markRejected": "Marcar como rechazada",
+      "convertToInvoice": "Convertir a Invoice",
+      "viewInvoice": "Ver invoice",
+      "sendInvoice": "Enviar invoice",
+      "markPaid": "Marcar como pagado",
+      "paymentNotesPlaceholder": "Notas de pago (opcional)",
+      "paymentNotesLabel": "Notas de pago",
+      "print": "Imprimir"
+    }
+  },
+  "contractTemplates": {
+    "teaser": {
+      "title": "Plantillas de contrato",
+      "count": "{count, plural, =0 {Sin plantillas} one {# plantilla} other {# plantillas}}"
+    },
+    "list": {
+      "title": "Plantillas de contrato",
+      "subtitle": "Crea plantillas reutilizables para los contratos de tus trabajos.",
+      "newTemplate": "Nueva plantilla",
+      "emptyTitle": "Aún no tienes plantillas",
+      "emptyDescription": "Crea tu primera plantilla de contrato para poder seleccionarla al crear un trabajo."
+    },
+    "new": {
+      "title": "Nueva plantilla de contrato",
+      "subtitle": "El contrato es opcional al crear un trabajo."
+    },
+    "edit": {
+      "title": "Editar plantilla de contrato"
+    },
+    "form": {
+      "identityTitle": "Nombre de la plantilla",
+      "name": "Nombre",
+      "bodyTitle": "Contenido del contrato",
+      "bodyDescription": "Usa estos marcadores; se reemplazarán automáticamente con la información del cliente, la compañía y el trabajo.",
+      "saved": "Plantilla guardada correctamente.",
+      "error": "No se pudo guardar. Intenta de nuevo.",
+      "deleteError": "No se pudo eliminar la plantilla."
+    }
+  },
+  "contracts": {
+    "status": {
+      "draft": "Borrador",
+      "sent": "Enviado",
+      "signed": "Firmado"
+    },
+    "section": {
+      "noTemplate": "Este trabajo no tiene una plantilla de contrato seleccionada.",
+      "templateSelected": "Plantilla seleccionada: {name}",
+      "generate": "Generar contrato",
+      "send": "Enviar al cliente",
+      "view": "Ver / Imprimir",
+      "copyLink": "Copiar enlace",
+      "copied": "¡Copiado!",
+      "signedBy": "Firmado por {name}"
+    },
+    "public": {
+      "title": "Contrato",
+      "signedBanner": "Firmado por {name} el {date}.",
+      "signatureLabel": "Firma"
+    },
+    "sign": {
+      "title": "Firma electrónica",
+      "fullName": "Nombre completo",
+      "drawSignature": "Dibuja tu firma",
+      "clearSignature": "Borrar firma",
+      "missingFields": "Escribe tu nombre y dibuja tu firma para continuar.",
+      "accept": "Aceptar y firmar",
+      "error": "No se pudo registrar la firma. Intenta de nuevo.",
+      "print": "Imprimir"
+    }
+  },
   "expenseRequests": {
     "status": {
       "pending": "Pendiente",
@@ -95,6 +221,10 @@
       "description": "Descripción",
       "additionalInfo": "Información adicional",
       "contract": "Contrato",
+      "quotes": "Cotizaciones",
+      "newQuote": "Nueva cotización",
+      "noQuotes": "Aún no hay cotizaciones para este trabajo.",
+      "invoices": "Invoices",
       "assignedEmployees": "Empleados asignados",
       "noData": "Sin información registrada",
       "client": "Cliente",
@@ -151,6 +281,7 @@
     "loading": "Cargando...",
     "save": "Guardar",
     "cancel": "Cancelar",
+    "delete": "Eliminar",
     "comingSoon": "Próximamente",
     "comingSoonDescription": "Este módulo está en construcción. Vuelve pronto."
   },
@@ -346,6 +477,8 @@
       "preview": "Según la jurisdicción de tu compañía ({jurisdiction}), aquí aparecerán estos formularios:"
     },
     "finances": {
+      "revenuePreview": "Invoices pagados. Aquí se conectarán tus reportes financieros.",
+      "noRevenue": "Aún no hay invoices pagados.",
       "expensesPreview": "Gastos aprobados desde solicitudes de trabajos. Aquí se conectarán tus reportes financieros.",
       "noExpenses": "Aún no hay gastos registrados."
     }

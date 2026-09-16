@@ -3,6 +3,132 @@
     "title": "Jobzapp",
     "description": "Management platform for service companies."
   },
+  "documents": {
+    "client": "Client",
+    "description": "Description",
+    "itemDescription": "Description",
+    "quantity": "Quantity",
+    "unitCost": "Unit cost",
+    "amount": "Amount",
+    "total": "Total",
+    "terms": "Terms",
+    "kind": {
+      "quote": { "title": "Quote" },
+      "invoice": { "title": "Invoice" }
+    },
+    "quoteStatus": {
+      "draft": "Draft",
+      "sent": "Quote sent",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "invoiceStatus": {
+      "draft": "Draft",
+      "sent": "Invoice sent",
+      "paid": "Paid"
+    },
+    "new": {
+      "title": "New {kind}"
+    },
+    "edit": {
+      "title": "Edit quote"
+    },
+    "detail": {
+      "sentOrDecided": "Job document"
+    },
+    "form": {
+      "clientAddressTitle": "Client address",
+      "descriptionTitle": "Description",
+      "lineItemsTitle": "Materials & costs",
+      "termsTitle": "Terms",
+      "error": "Couldn't save. Try again."
+    },
+    "editor": {
+      "kindMaterial": "Material",
+      "kindLabor": "Labor",
+      "kindOther": "Other",
+      "descriptionPlaceholder": "Item description",
+      "quantity": "Quantity",
+      "unitCost": "Unit cost",
+      "remove": "Remove item",
+      "addItem": "Add item",
+      "total": "Total"
+    },
+    "actions": {
+      "edit": "Edit",
+      "sendQuote": "Send quote",
+      "markAccepted": "Mark as accepted",
+      "markRejected": "Mark as rejected",
+      "convertToInvoice": "Convert to invoice",
+      "viewInvoice": "View invoice",
+      "sendInvoice": "Send invoice",
+      "markPaid": "Mark as paid",
+      "paymentNotesPlaceholder": "Payment notes (optional)",
+      "paymentNotesLabel": "Payment notes",
+      "print": "Print"
+    }
+  },
+  "contractTemplates": {
+    "teaser": {
+      "title": "Contract templates",
+      "count": "{count, plural, =0 {No templates} one {# template} other {# templates}}"
+    },
+    "list": {
+      "title": "Contract templates",
+      "subtitle": "Create reusable templates for your job contracts.",
+      "newTemplate": "New template",
+      "emptyTitle": "No templates yet",
+      "emptyDescription": "Create your first contract template so you can select it when creating a job."
+    },
+    "new": {
+      "title": "New contract template",
+      "subtitle": "The contract is optional when creating a job."
+    },
+    "edit": {
+      "title": "Edit contract template"
+    },
+    "form": {
+      "identityTitle": "Template name",
+      "name": "Name",
+      "bodyTitle": "Contract content",
+      "bodyDescription": "Use these placeholders; they'll be replaced automatically with the client's, company's, and job's information.",
+      "saved": "Template saved successfully.",
+      "error": "Couldn't save. Try again.",
+      "deleteError": "Couldn't delete the template."
+    }
+  },
+  "contracts": {
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "signed": "Signed"
+    },
+    "section": {
+      "noTemplate": "This job doesn't have a contract template selected.",
+      "templateSelected": "Selected template: {name}",
+      "generate": "Generate contract",
+      "send": "Send to client",
+      "view": "View / Print",
+      "copyLink": "Copy link",
+      "copied": "Copied!",
+      "signedBy": "Signed by {name}"
+    },
+    "public": {
+      "title": "Contract",
+      "signedBanner": "Signed by {name} on {date}.",
+      "signatureLabel": "Signature"
+    },
+    "sign": {
+      "title": "Electronic signature",
+      "fullName": "Full name",
+      "drawSignature": "Draw your signature",
+      "clearSignature": "Clear signature",
+      "missingFields": "Enter your name and draw your signature to continue.",
+      "accept": "Accept & sign",
+      "error": "Couldn't record the signature. Try again.",
+      "print": "Print"
+    }
+  },
   "expenseRequests": {
     "status": {
       "pending": "Pending",
@@ -95,6 +221,10 @@
       "description": "Description",
       "additionalInfo": "Additional information",
       "contract": "Contract",
+      "quotes": "Quotes",
+      "newQuote": "New quote",
+      "noQuotes": "No quotes for this job yet.",
+      "invoices": "Invoices",
       "assignedEmployees": "Assigned employees",
       "noData": "No information on file",
       "client": "Client",
@@ -151,6 +281,7 @@
     "loading": "Loading...",
     "save": "Save",
     "cancel": "Cancel",
+    "delete": "Delete",
     "comingSoon": "Coming soon",
     "comingSoonDescription": "This module is under construction. Check back soon."
   },
@@ -346,6 +477,8 @@
       "preview": "Based on your company's jurisdiction ({jurisdiction}), these forms will show up here:"
     },
     "finances": {
+      "revenuePreview": "Paid invoices. Your financial reports will connect here.",
+      "noRevenue": "No paid invoices yet.",
       "expensesPreview": "Expenses approved from job requests. Your financial reports will connect here.",
       "noExpenses": "No expenses recorded yet."
     }
