@@ -17,20 +17,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { login } from "../actions";
+import { authErrorMessageKey } from "../error-messages";
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
   const tErrors = useTranslations("auth.errors");
   const { locale } = useParams<{ locale: Locale }>();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
   const [pending, setPending] = React.useState(false);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     setPending(true);
     setError(null);
+    const formData = new FormData();
+    formData.set("email", email);
+    formData.set("password", password);
     const result = await login(locale, formData);
     if (result?.error) {
-      setError(tErrors("generic"));
+      setError(tErrors(authErrorMessageKey(result.error)));
       setPending(false);
     }
   }
@@ -42,16 +49,36 @@ export default function LoginPage() {
         <CardDescription>{t("subtitle")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">{t("email")}</Label>
-            <Input id="email" name="email" type="email" required />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="password">{t("password")}</Label>
-            <Input id="password" name="password" type="password" required />
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+          {error ? (
+            <p role="alert" className="text-sm text-destructive">
+              {error}
+            </p>
+          ) : null}
           <Button type="submit" className="mt-2 w-full" disabled={pending}>
             {t("submit")}
           </Button>

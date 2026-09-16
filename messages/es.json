@@ -309,7 +309,14 @@
     "cancel": "Cancelar",
     "delete": "Eliminar",
     "comingSoon": "Próximamente",
-    "comingSoonDescription": "Este módulo está en construcción. Vuelve pronto."
+    "comingSoonDescription": "Este módulo está en construcción. Vuelve pronto.",
+    "openMenu": "Abrir menú de navegación",
+    "close": "Cerrar"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "No pudimos encontrar lo que buscas. Puede que el enlace esté roto o que el recurso ya no exista.",
+    "backHome": "Volver al inicio"
   },
   "period": {
     "label": "Período",
@@ -408,7 +415,13 @@
       "signIn": "Inicia sesión"
     },
     "errors": {
-      "generic": "Ocurrió un error. Intenta de nuevo."
+      "generic": "Ocurrió un error. Intenta de nuevo.",
+      "invalidCredentials": "Correo o contraseña incorrectos.",
+      "emailNotConfirmed": "Confirma tu correo electrónico antes de iniciar sesión.",
+      "userExists": "Ya existe una cuenta con este correo electrónico.",
+      "weakPassword": "La contraseña es muy débil. Usa al menos 6 caracteres.",
+      "invalidEmail": "El correo electrónico no es válido.",
+      "tooManyRequests": "Demasiados intentos. Espera un momento e intenta de nuevo."
     }
   },
   "owner": {
@@ -700,6 +713,7 @@
   "userMenu": {
     "profile": "Perfil",
     "settings": "Configuración",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "accountMenu": "Menú de cuenta"
   }
 }

@@ -77,7 +77,7 @@ export function ExpenseRequestCard({
       {request.additional_info ? (
         <div>
           <p className="text-xs text-muted-foreground">{t("detail.additionalInfo")}</p>
-          <p className="text-sm whitespace-pre-wrap">{request.additional_info}</p>
+          <p className="whitespace-pre-wrap break-words text-sm">{request.additional_info}</p>
         </div>
       ) : null}
 

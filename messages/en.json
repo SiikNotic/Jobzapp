@@ -309,7 +309,14 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "comingSoon": "Coming soon",
-    "comingSoonDescription": "This module is under construction. Check back soon."
+    "comingSoonDescription": "This module is under construction. Check back soon.",
+    "openMenu": "Open navigation menu",
+    "close": "Close"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "We couldn't find what you're looking for. The link may be broken or the resource may no longer exist.",
+    "backHome": "Back to home"
   },
   "period": {
     "label": "Period",
@@ -408,7 +415,13 @@
       "signIn": "Sign in"
     },
     "errors": {
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailNotConfirmed": "Confirm your email address before signing in.",
+      "userExists": "An account with this email already exists.",
+      "weakPassword": "That password is too weak. Use at least 6 characters.",
+      "invalidEmail": "That email address isn't valid.",
+      "tooManyRequests": "Too many attempts. Wait a moment and try again."
     }
   },
   "owner": {
@@ -700,6 +713,7 @@
   "userMenu": {
     "profile": "Profile",
     "settings": "Settings",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "accountMenu": "Account menu"
   }
 }

@@ -63,30 +63,32 @@ export function DocumentPreview({
       {description ? (
         <div className="mb-6">
           <p className="text-xs font-medium text-muted-foreground">{t("description")}</p>
-          <p className="whitespace-pre-wrap text-sm">{description}</p>
+          <p className="whitespace-pre-wrap break-words text-sm">{description}</p>
         </div>
       ) : null}
 
-      <table className="mb-6 w-full text-sm">
-        <thead>
-          <tr className="border-b text-left text-xs text-muted-foreground">
-            <th className="py-2 font-medium">{t("itemDescription")}</th>
-            <th className="py-2 text-right font-medium">{t("quantity")}</th>
-            <th className="py-2 text-right font-medium">{t("unitCost")}</th>
-            <th className="py-2 text-right font-medium">{t("amount")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lineItems.map((item, index) => (
-            <tr key={index} className="border-b last:border-0">
-              <td className="py-2">{item.description}</td>
-              <td className="py-2 text-right">{item.quantity}</td>
-              <td className="py-2 text-right">${item.unit_cost.toFixed(2)}</td>
-              <td className="py-2 text-right">${(item.quantity * item.unit_cost).toFixed(2)}</td>
+      <div className="mb-6 -mx-6 overflow-x-auto px-6 print:mx-0 print:overflow-visible print:px-0">
+        <table className="w-full min-w-[480px] text-sm">
+          <thead>
+            <tr className="border-b text-left text-xs text-muted-foreground">
+              <th className="py-2 font-medium">{t("itemDescription")}</th>
+              <th className="py-2 text-right font-medium">{t("quantity")}</th>
+              <th className="py-2 text-right font-medium">{t("unitCost")}</th>
+              <th className="py-2 text-right font-medium">{t("amount")}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {lineItems.map((item, index) => (
+              <tr key={index} className="border-b last:border-0">
+                <td className="py-2">{item.description}</td>
+                <td className="py-2 text-right">{item.quantity}</td>
+                <td className="py-2 text-right">${item.unit_cost.toFixed(2)}</td>
+                <td className="py-2 text-right">${(item.quantity * item.unit_cost).toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="mb-6 flex justify-end">
         <div className="flex items-center gap-4 text-lg font-semibold">
@@ -98,7 +100,7 @@ export function DocumentPreview({
       {terms ? (
         <div className="border-t pt-4">
           <p className="text-xs font-medium text-muted-foreground">{t("terms")}</p>
-          <p className="whitespace-pre-wrap text-sm text-muted-foreground">{terms}</p>
+          <p className="whitespace-pre-wrap break-words text-sm text-muted-foreground">{terms}</p>
         </div>
       ) : null}
     </div>

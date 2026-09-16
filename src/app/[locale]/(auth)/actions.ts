@@ -13,7 +13,7 @@ export async function login(locale: Locale, formData: FormData) {
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: error.code ?? "generic" };
   }
 
   redirect({ href: "/owner/dashboard", locale });
@@ -37,7 +37,7 @@ export async function signup(locale: Locale, formData: FormData) {
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: error.code ?? "generic" };
   }
 
   redirect({ href: "/owner/dashboard", locale });

@@ -55,7 +55,7 @@ export default async function PublicContractPage({
           <h1 className="text-lg font-semibold">{t("title")}</h1>
           <JobContractStatusBadge status={contract.status} />
         </div>
-        <div className="whitespace-pre-wrap text-sm leading-relaxed">{content}</div>
+        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed">{content}</div>
       </div>
 
       {isSigned && contract.signature_data_url ? (

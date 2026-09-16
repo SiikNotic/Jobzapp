@@ -158,16 +158,16 @@ export function JobForm({
             ) : null
           ) : selectedClient ? (
             <div className="flex items-center justify-between gap-2 rounded-md border p-3 text-sm">
-              <div className="flex items-center gap-2">
+              <div className="flex min-w-0 items-center gap-2">
                 {selectedClient.type === "company" ? (
-                  <Building2 className="size-4 text-muted-foreground" />
+                  <Building2 className="size-4 shrink-0 text-muted-foreground" />
                 ) : (
-                  <User className="size-4 text-muted-foreground" />
+                  <User className="size-4 shrink-0 text-muted-foreground" />
                 )}
-                <div>
-                  <p className="font-medium">{selectedClient.display_name}</p>
+                <div className="min-w-0">
+                  <p className="truncate font-medium">{selectedClient.display_name}</p>
                   {selectedClient.phone ? (
-                    <p className="text-xs text-muted-foreground">{selectedClient.phone}</p>
+                    <p className="truncate text-xs text-muted-foreground">{selectedClient.phone}</p>
                   ) : null}
                 </div>
               </div>

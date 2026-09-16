@@ -109,7 +109,11 @@ export default async function OwnerJobDetailPage({
           </CardHeader>
           <CardContent className="text-sm">
             {addressLines.length > 0 ? (
-              addressLines.map((line) => <p key={line}>{line}</p>)
+              addressLines.map((line) => (
+                <p key={line} className="break-words">
+                  {line}
+                </p>
+              ))
             ) : (
               <p className="text-muted-foreground">{t("noData")}</p>
             )}
@@ -122,7 +126,7 @@ export default async function OwnerJobDetailPage({
           <CardHeader>
             <CardTitle className="text-base">{t("description")}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm whitespace-pre-wrap">{job.description}</CardContent>
+          <CardContent className="whitespace-pre-wrap break-words text-sm">{job.description}</CardContent>
         </Card>
       ) : null}
 
@@ -140,7 +144,7 @@ export default async function OwnerJobDetailPage({
           <CardHeader>
             <CardTitle className="text-base">{t("additionalInfo")}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm whitespace-pre-wrap">{job.additional_info}</CardContent>
+          <CardContent className="whitespace-pre-wrap break-words text-sm">{job.additional_info}</CardContent>
         </Card>
       ) : null}
 

@@ -88,6 +88,7 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const t = useTranslations("userMenu");
+  const tCommon = useTranslations("common");
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
@@ -120,6 +121,7 @@ export function AppShell({
             size="icon"
             className="md:hidden"
             onClick={() => setMobileOpen(true)}
+            aria-label={tCommon("openMenu")}
           >
             <Menu />
           </Button>
@@ -128,7 +130,7 @@ export function AppShell({
             <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="ml-1 gap-2 px-2">
+                <Button variant="ghost" className="ml-1 gap-2 px-2" aria-label={t("accountMenu")}>
                   <Avatar className="size-7">
                     <AvatarFallback>{initials(fullName)}</AvatarFallback>
                   </Avatar>

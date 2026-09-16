@@ -64,7 +64,11 @@ export default async function ClientDetailPage({
           <CardContent className="flex flex-col gap-1 py-4">
             <p className="text-sm font-medium text-muted-foreground">{t("contact")}</p>
             {contactLines.length > 0 ? (
-              contactLines.map((line) => <p key={line}>{line}</p>)
+              contactLines.map((line) => (
+                <p key={line} className="break-words">
+                  {line}
+                </p>
+              ))
             ) : (
               <p className="text-sm text-muted-foreground">{t("noData")}</p>
             )}
@@ -74,7 +78,11 @@ export default async function ClientDetailPage({
           <CardContent className="flex flex-col gap-1 py-4">
             <p className="text-sm font-medium text-muted-foreground">{t("address")}</p>
             {addressLines.length > 0 ? (
-              addressLines.map((line) => <p key={line}>{line}</p>)
+              addressLines.map((line) => (
+                <p key={line} className="break-words">
+                  {line}
+                </p>
+              ))
             ) : (
               <p className="text-sm text-muted-foreground">{t("noData")}</p>
             )}
@@ -86,7 +94,7 @@ export default async function ClientDetailPage({
         <Card>
           <CardContent className="flex flex-col gap-1 py-4">
             <p className="text-sm font-medium text-muted-foreground">{t("notes")}</p>
-            <p className="whitespace-pre-wrap text-sm">{client.notes}</p>
+            <p className="whitespace-pre-wrap break-words text-sm">{client.notes}</p>
           </CardContent>
         </Card>
       ) : null}

@@ -57,16 +57,16 @@ export default async function EmployeeJobDetailPage({
           <CardContent className="flex flex-col gap-1 text-sm">
             {job.client ? (
               <>
-                <div className="flex items-center gap-1.5 font-medium">
+                <div className="flex min-w-0 items-center gap-1.5 font-medium">
                   {job.client.type === "company" ? (
-                    <Building2 className="size-4 text-muted-foreground" />
+                    <Building2 className="size-4 shrink-0 text-muted-foreground" />
                   ) : (
-                    <User className="size-4 text-muted-foreground" />
+                    <User className="size-4 shrink-0 text-muted-foreground" />
                   )}
-                  {job.client.display_name}
+                  <span className="truncate">{job.client.display_name}</span>
                 </div>
-                {job.client.phone ? <p>{job.client.phone}</p> : null}
-                {job.client.email ? <p>{job.client.email}</p> : null}
+                {job.client.phone ? <p className="break-words">{job.client.phone}</p> : null}
+                {job.client.email ? <p className="break-words">{job.client.email}</p> : null}
               </>
             ) : (
               <p className="text-muted-foreground">{t("noData")}</p>
@@ -79,7 +79,11 @@ export default async function EmployeeJobDetailPage({
           </CardHeader>
           <CardContent className="text-sm">
             {addressLines.length > 0 ? (
-              addressLines.map((line) => <p key={line}>{line}</p>)
+              addressLines.map((line) => (
+                <p key={line} className="break-words">
+                  {line}
+                </p>
+              ))
             ) : (
               <p className="text-muted-foreground">{t("noData")}</p>
             )}
@@ -92,7 +96,7 @@ export default async function EmployeeJobDetailPage({
           <CardHeader>
             <CardTitle className="text-base">{t("description")}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm whitespace-pre-wrap">{job.description}</CardContent>
+          <CardContent className="whitespace-pre-wrap break-words text-sm">{job.description}</CardContent>
         </Card>
       ) : null}
 
@@ -138,7 +142,7 @@ export default async function EmployeeJobDetailPage({
           <CardHeader>
             <CardTitle className="text-base">{t("additionalInfo")}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm whitespace-pre-wrap">{job.additional_info}</CardContent>
+          <CardContent className="whitespace-pre-wrap break-words text-sm">{job.additional_info}</CardContent>
         </Card>
       ) : null}
 
