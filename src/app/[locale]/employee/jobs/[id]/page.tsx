@@ -1,14 +1,18 @@
-import { Building2, FileText, User } from "lucide-react";
+import { Building2, FileText, Plus, Receipt, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getJobDetail } from "@/lib/jobs/queries";
+import { listExpenseRequestsForJob } from "@/lib/expense-requests/queries";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JobPriorityBadge } from "@/components/jobs/job-priority-badge";
 import { JobStatusBadge } from "@/components/jobs/job-status-badge";
 import { MaterialsList } from "@/components/jobs/materials-list";
 import { EmployeeJobStatusActions } from "@/components/employee/job-status-actions";
+import { ExpenseRequestCard } from "@/components/expense-requests/expense-request-card";
 
 export default async function EmployeeJobDetailPage({
   params,
@@ -17,11 +21,14 @@ export default async function EmployeeJobDetailPage({
 }) {
   const { locale, id } = (await params) as { locale: Locale; id: string };
   const t = await getTranslations({ locale, namespace: "jobs.detail" });
+  const tExpenses = await getTranslations({ locale, namespace: "expenseRequests" });
 
   const job = await getJobDetail(id);
   if (!job) {
     notFound();
   }
+
+  const expenseRequests = await listExpenseRequestsForJob(job.id);
 
   const addressLines = [
     job.address_line1,
@@ -95,6 +102,34 @@ export default async function EmployeeJobDetailPage({
         </CardHeader>
         <CardContent>
           <MaterialsList materials={job.materials} />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Receipt className="size-4 text-muted-foreground" /> {tExpenses("list.title")}
+          </CardTitle>
+          <Button asChild size="sm" variant="outline">
+            <Link href={`/employee/jobs/${job.id}/expenses/new`}>
+              <Plus /> {tExpenses("list.newRequest")}
+            </Link>
+          </Button>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          {expenseRequests.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{tExpenses("list.empty")}</p>
+          ) : (
+            expenseRequests.map((request) => (
+              <ExpenseRequestCard
+                key={request.id}
+                request={request}
+                canReview={false}
+                jobId={job.id}
+                locale={locale}
+              />
+            ))
+          )}
         </CardContent>
       </Card>
 

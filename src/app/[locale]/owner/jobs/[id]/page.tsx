@@ -1,4 +1,4 @@
-import { Building2, Pencil, User } from "lucide-react";
+import { Building2, Pencil, Receipt, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -6,6 +6,7 @@ import { Link, redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getCurrentProfile } from "@/lib/auth/get-profile";
 import { getJobDetail, listEmployees } from "@/lib/jobs/queries";
+import { listExpenseRequestsForJob } from "@/lib/expense-requests/queries";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JobPriorityBadge } from "@/components/jobs/job-priority-badge";
@@ -13,6 +14,7 @@ import { MaterialsList } from "@/components/jobs/materials-list";
 import { JobStatusHistory } from "@/components/jobs/job-status-history";
 import { JobStatusControl } from "@/components/owner/jobs/job-status-control";
 import { EmployeeAssignmentManager } from "@/components/owner/jobs/employee-assignment-manager";
+import { ExpenseRequestCard } from "@/components/expense-requests/expense-request-card";
 
 export default async function OwnerJobDetailPage({
   params,
@@ -21,6 +23,7 @@ export default async function OwnerJobDetailPage({
 }) {
   const { locale, id } = (await params) as { locale: Locale; id: string };
   const t = await getTranslations({ locale, namespace: "jobs.detail" });
+  const tExpenses = await getTranslations({ locale, namespace: "expenseRequests" });
 
   const { profile } = await getCurrentProfile();
   if (!profile?.company_id) {
@@ -33,7 +36,10 @@ export default async function OwnerJobDetailPage({
     notFound();
   }
 
-  const employees = await listEmployees(profile.company_id);
+  const [employees, expenseRequests] = await Promise.all([
+    listEmployees(profile.company_id),
+    listExpenseRequestsForJob(job.id),
+  ]);
 
   const addressLines = [
     job.address_line1,
@@ -137,6 +143,29 @@ export default async function OwnerJobDetailPage({
           <CardContent className="text-sm">{job.contract_template_name}</CardContent>
         </Card>
       ) : null}
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Receipt className="size-4 text-muted-foreground" /> {tExpenses("list.title")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          {expenseRequests.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{tExpenses("list.empty")}</p>
+          ) : (
+            expenseRequests.map((request) => (
+              <ExpenseRequestCard
+                key={request.id}
+                request={request}
+                canReview={request.requested_by !== profile.id}
+                jobId={job.id}
+                locale={locale}
+              />
+            ))
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

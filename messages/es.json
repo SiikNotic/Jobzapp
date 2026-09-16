@@ -3,6 +3,47 @@
     "title": "Jobzapp",
     "description": "Plataforma de gestión para compañías de servicios."
   },
+  "expenseRequests": {
+    "status": {
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado"
+    },
+    "list": {
+      "title": "Solicitudes de gastos",
+      "newRequest": "Nueva solicitud",
+      "empty": "No hay solicitudes de gastos para este trabajo."
+    },
+    "detail": {
+      "quantity": "Cantidad",
+      "estimatedCost": "Costo estimado",
+      "requestedBy": "Solicitado por",
+      "additionalInfo": "Información adicional",
+      "reviewedBy": "Revisado por"
+    },
+    "form": {
+      "title": "Solicitar materiales o gastos",
+      "material": "Material solicitado",
+      "reason": "Motivo",
+      "quantity": "Cantidad",
+      "estimatedCost": "Costo estimado ($)",
+      "additionalInfo": "Información adicional",
+      "submit": "Enviar solicitud",
+      "error": "No se pudo enviar la solicitud. Intenta de nuevo."
+    },
+    "review": {
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "notesPlaceholder": "Notas para el empleado (opcional)",
+      "error": "No se pudo procesar la decisión. Intenta de nuevo."
+    },
+    "employeeList": {
+      "title": "Mis solicitudes de gastos",
+      "subtitle": "Solicitudes que has hecho en tus trabajos.",
+      "emptyTitle": "Aún no has hecho solicitudes",
+      "emptyDescription": "Cuando necesites materiales o dinero adicional, solicítalo desde el trabajo correspondiente."
+    }
+  },
   "jobs": {
     "status": {
       "scheduled": "Programado",
@@ -303,6 +344,10 @@
       "jurisdictionUS": "Estados Unidos",
       "jurisdictionPR": "Puerto Rico",
       "preview": "Según la jurisdicción de tu compañía ({jurisdiction}), aquí aparecerán estos formularios:"
+    },
+    "finances": {
+      "expensesPreview": "Gastos aprobados desde solicitudes de trabajos. Aquí se conectarán tus reportes financieros.",
+      "noExpenses": "Aún no hay gastos registrados."
     }
   },
   "employee": {

@@ -3,6 +3,47 @@
     "title": "Jobzapp",
     "description": "Management platform for service companies."
   },
+  "expenseRequests": {
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "list": {
+      "title": "Expense requests",
+      "newRequest": "New request",
+      "empty": "No expense requests for this job."
+    },
+    "detail": {
+      "quantity": "Quantity",
+      "estimatedCost": "Estimated cost",
+      "requestedBy": "Requested by",
+      "additionalInfo": "Additional information",
+      "reviewedBy": "Reviewed by"
+    },
+    "form": {
+      "title": "Request materials or expenses",
+      "material": "Requested material",
+      "reason": "Reason",
+      "quantity": "Quantity",
+      "estimatedCost": "Estimated cost ($)",
+      "additionalInfo": "Additional information",
+      "submit": "Submit request",
+      "error": "Couldn't submit the request. Try again."
+    },
+    "review": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "notesPlaceholder": "Notes for the employee (optional)",
+      "error": "Couldn't process the decision. Try again."
+    },
+    "employeeList": {
+      "title": "My expense requests",
+      "subtitle": "Requests you've made on your jobs.",
+      "emptyTitle": "No requests yet",
+      "emptyDescription": "When you need extra materials or money, request it from the relevant job."
+    }
+  },
   "jobs": {
     "status": {
       "scheduled": "Scheduled",
@@ -303,6 +344,10 @@
       "jurisdictionUS": "United States",
       "jurisdictionPR": "Puerto Rico",
       "preview": "Based on your company's jurisdiction ({jurisdiction}), these forms will show up here:"
+    },
+    "finances": {
+      "expensesPreview": "Expenses approved from job requests. Your financial reports will connect here.",
+      "noExpenses": "No expenses recorded yet."
     }
   },
   "employee": {
