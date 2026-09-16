@@ -320,6 +320,54 @@
     "to": "Hasta",
     "apply": "Aplicar"
   },
+  "audit": {
+    "entityTypes": {
+      "job": "Trabajos",
+      "quote": "Cotizaciones",
+      "invoice": "Invoices",
+      "expense_request": "Solicitudes de gastos",
+      "pay_receipt": "Recibos de pago",
+      "employee_pay_rate": "Tarifas de pago",
+      "job_contract": "Contratos",
+      "job_assignment": "Asignaciones"
+    },
+    "events": {
+      "job": {
+        "scheduled": "Trabajo {label} programado",
+        "in_progress": "Trabajo {label} marcado en progreso",
+        "completed": "Trabajo {label} marcado como completado",
+        "cancelled": "Trabajo {label} cancelado"
+      },
+      "quote": {
+        "sent": "Cotización {label} enviada a {detail}",
+        "accepted": "Cotización {label} aceptada por {detail}",
+        "rejected": "Cotización {label} rechazada por {detail}"
+      },
+      "invoice": {
+        "sent": "Invoice {label} enviado a {detail}",
+        "paid": "Invoice {label} pagado por {detail} ({amount})"
+      },
+      "expense_request": {
+        "approved": "Solicitud de gastos \"{label}\" aprobada ({amount})",
+        "rejected": "Solicitud de gastos \"{label}\" rechazada"
+      },
+      "pay_receipt": {
+        "issued": "Recibo de pago {label} emitido a {detail} ({amount})"
+      },
+      "employee_pay_rate": {
+        "rate_set": "Tarifa por hora de {label} configurada ({amount}/hora)",
+        "rate_updated": "Tarifa por hora de {label} actualizada ({amount}/hora)"
+      },
+      "job_contract": {
+        "sent": "Contrato del trabajo {label} enviado",
+        "signed": "Contrato del trabajo {label} firmado"
+      },
+      "job_assignment": {
+        "assigned": "{detail} asignado al trabajo {label}",
+        "unassigned": "{detail} removido del trabajo {label}"
+      }
+    }
+  },
   "theme": {
     "toggle": "Cambiar tema",
     "light": "Claro",
@@ -366,7 +414,42 @@
   "owner": {
     "dashboard": {
       "welcome": "Bienvenido de nuevo, {name}",
-      "subtitle": "Aquí verás el resumen de tu compañía en cuanto conectemos tus datos."
+      "subtitle": "Resumen de tu compañía.",
+      "sections": {
+        "jobs": "Trabajos",
+        "business": "Cotizaciones, invoices y finanzas"
+      },
+      "jobsPending": "Trabajos pendientes",
+      "jobsScheduled": "Trabajos programados",
+      "jobsInProgress": "Trabajos en progreso",
+      "jobsCompleted": "Trabajos completados",
+      "quotesPending": "Cotizaciones pendientes",
+      "invoicesPending": "Invoices pendientes",
+      "incomeThisMonth": "Pagos recibidos (este mes)",
+      "expensesThisMonth": "Gastos (este mes)",
+      "expenseRequestsPending": "Solicitudes de gastos pendientes",
+      "employees": "Empleados",
+      "actionNeeded": "Acción requerida",
+      "recentActivity": "Actividad reciente",
+      "viewAll": "Ver todo",
+      "activityEmpty": "Aún no hay actividad registrada.",
+      "search": {
+        "placeholder": "Buscar por código de trabajo, cliente, compañía, empleado, invoice o cotización...",
+        "noResults": "No se encontraron resultados.",
+        "categories": {
+          "jobs": "Trabajos",
+          "clients": "Clientes",
+          "employees": "Empleados",
+          "quotes": "Cotizaciones",
+          "invoices": "Invoices"
+        }
+      },
+      "activity": {
+        "title": "Historial de actividad",
+        "subtitle": "Cambios importantes: quién los hizo, qué cambió y cuándo.",
+        "allTypes": "Todos los tipos",
+        "empty": "Aún no hay actividad registrada."
+      }
     },
     "clients": {
       "type": {

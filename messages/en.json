@@ -320,6 +320,54 @@
     "to": "To",
     "apply": "Apply"
   },
+  "audit": {
+    "entityTypes": {
+      "job": "Jobs",
+      "quote": "Quotes",
+      "invoice": "Invoices",
+      "expense_request": "Expense requests",
+      "pay_receipt": "Pay receipts",
+      "employee_pay_rate": "Pay rates",
+      "job_contract": "Contracts",
+      "job_assignment": "Assignments"
+    },
+    "events": {
+      "job": {
+        "scheduled": "Job {label} scheduled",
+        "in_progress": "Job {label} marked in progress",
+        "completed": "Job {label} marked completed",
+        "cancelled": "Job {label} cancelled"
+      },
+      "quote": {
+        "sent": "Quote {label} sent to {detail}",
+        "accepted": "Quote {label} accepted by {detail}",
+        "rejected": "Quote {label} rejected by {detail}"
+      },
+      "invoice": {
+        "sent": "Invoice {label} sent to {detail}",
+        "paid": "Invoice {label} paid by {detail} ({amount})"
+      },
+      "expense_request": {
+        "approved": "Expense request \"{label}\" approved ({amount})",
+        "rejected": "Expense request \"{label}\" rejected"
+      },
+      "pay_receipt": {
+        "issued": "Pay receipt {label} issued to {detail} ({amount})"
+      },
+      "employee_pay_rate": {
+        "rate_set": "Hourly rate for {label} set ({amount}/hour)",
+        "rate_updated": "Hourly rate for {label} updated ({amount}/hour)"
+      },
+      "job_contract": {
+        "sent": "Contract for job {label} sent",
+        "signed": "Contract for job {label} signed"
+      },
+      "job_assignment": {
+        "assigned": "{detail} assigned to job {label}",
+        "unassigned": "{detail} removed from job {label}"
+      }
+    }
+  },
   "theme": {
     "toggle": "Toggle theme",
     "light": "Light",
@@ -366,7 +414,42 @@
   "owner": {
     "dashboard": {
       "welcome": "Welcome back, {name}",
-      "subtitle": "Your company overview will appear here once your data is connected."
+      "subtitle": "Your company overview.",
+      "sections": {
+        "jobs": "Jobs",
+        "business": "Quotes, invoices, and finances"
+      },
+      "jobsPending": "Pending jobs",
+      "jobsScheduled": "Scheduled jobs",
+      "jobsInProgress": "Jobs in progress",
+      "jobsCompleted": "Completed jobs",
+      "quotesPending": "Pending quotes",
+      "invoicesPending": "Pending invoices",
+      "incomeThisMonth": "Payments received (this month)",
+      "expensesThisMonth": "Expenses (this month)",
+      "expenseRequestsPending": "Pending expense requests",
+      "employees": "Employees",
+      "actionNeeded": "Action needed",
+      "recentActivity": "Recent activity",
+      "viewAll": "View all",
+      "activityEmpty": "No activity recorded yet.",
+      "search": {
+        "placeholder": "Search by job code, client, company, employee, invoice, or quote...",
+        "noResults": "No results found.",
+        "categories": {
+          "jobs": "Jobs",
+          "clients": "Clients",
+          "employees": "Employees",
+          "quotes": "Quotes",
+          "invoices": "Invoices"
+        }
+      },
+      "activity": {
+        "title": "Activity history",
+        "subtitle": "Important changes: who made them, what changed, and when.",
+        "allTypes": "All types",
+        "empty": "No activity recorded yet."
+      }
     },
     "clients": {
       "type": {

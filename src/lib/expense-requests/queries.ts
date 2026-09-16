@@ -46,6 +46,28 @@ export async function listExpenseRequestsForEmployee(): Promise<EmployeeExpenseR
   });
 }
 
+export async function listPendingExpenseRequestsForCompany(
+  companyId: string,
+  limit = 5
+): Promise<EmployeeExpenseRequestItem[]> {
+  const supabase = await createSupabaseClient();
+  const { data } = await supabase
+    .from("expense_requests")
+    .select(`${EXPENSE_REQUEST_SELECT_COLUMNS}, job:jobs(job_code)`)
+    .eq("company_id", companyId)
+    .eq("status", "pending")
+    .order("created_at", { ascending: true })
+    .limit(limit);
+
+  return ((data as unknown as Record<string, unknown>[]) ?? []).map((row) => {
+    const job = row.job as { job_code: string } | null;
+    return {
+      ...mapRequest(row),
+      job_code: job?.job_code ?? "",
+    } as EmployeeExpenseRequestItem;
+  });
+}
+
 export async function listExpensesForCompany(companyId: string): Promise<Expense[]> {
   const supabase = await createSupabaseClient();
   const { data } = await supabase
