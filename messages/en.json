@@ -414,6 +414,14 @@
       "hasAccount": "Already have an account?",
       "signIn": "Sign in"
     },
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password",
+      "requirementLength": "At least 6 characters",
+      "requirementLonger": "8 characters or more (recommended)",
+      "requirementUppercase": "One uppercase letter (recommended)",
+      "requirementNumber": "One number (recommended)"
+    },
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "invalidCredentials": "Incorrect email or password.",

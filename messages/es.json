@@ -414,6 +414,14 @@
       "hasAccount": "¿Ya tienes cuenta?",
       "signIn": "Inicia sesión"
     },
+    "password": {
+      "show": "Mostrar contraseña",
+      "hide": "Ocultar contraseña",
+      "requirementLength": "Al menos 6 caracteres",
+      "requirementLonger": "8 caracteres o más (recomendado)",
+      "requirementUppercase": "Una letra mayúscula (recomendado)",
+      "requirementNumber": "Un número (recomendado)"
+    },
     "errors": {
       "generic": "Ocurrió un error. Intenta de nuevo.",
       "invalidCredentials": "Correo o contraseña incorrectos.",
